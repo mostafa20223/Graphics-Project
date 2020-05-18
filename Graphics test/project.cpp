@@ -71,7 +71,7 @@ GLuint _textureId1; //The id of the texture
 
 void initRendering() 
 {
-    Image* image = loadBMP("floor.bmp");
+    Image* image = loadBMP("floor1.bmp");
     _textureId = loadTexture(image);
     delete image;
 }
