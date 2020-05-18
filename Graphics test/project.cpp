@@ -12,15 +12,12 @@
  * using the + and - keys.
  */
 
-#ifdef __APPLE__
-#include <GLUT/glut.h>
-#else
-#include <GL/glut.h>
-#endif
-#include <stdlib.h>
+
 #include <math.h>
-#include "imageloader.h"
+#include <GL/glut.h>
 #include "glm.h"
+#include "imageloader.h"
+
 
 static int  elbow = 0,  fingerUp = 0, fingerBase=0,fingerUp1=0, fingerBase1=0,fingerUp2=0,fi_half3=0;
 static int hor2=0,hor1=0, chest=0,fi_half=0,se_half=0,fi_half2=0,se_half2=0,ar_1=0,ar_2=0,fi_half1=0;
@@ -42,11 +39,6 @@ GLfloat angle2 = 0.0;   /* in degrees */
 
 float VRot =0.0;
 GLMmodel* pmodel;
-
-GLMmodel* pmodel1;
-//GLMmodel* pmodel2 = glmReadOBJ("data/flowers.obj");
-//GLMmodel* pmodel3 = glmReadOBJ("data/rose+vase.obj");
-//GLMmodel* pmodel4 = glmReadOBJ("data/al.obj");
 
 //Makes the image into a texture, and returns the id of the texture
 GLuint loadTexture(Image* image) {
