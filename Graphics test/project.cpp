@@ -44,9 +44,9 @@ float VRot =0.0;
 GLMmodel* pmodel;
 
 GLMmodel* pmodel1;
-GLMmodel* pmodel2 = glmReadOBJ("data/flowers.obj");
-GLMmodel* pmodel3 = glmReadOBJ("data/rose+vase.obj");
-GLMmodel* pmodel4 = glmReadOBJ("data/al.obj");
+//GLMmodel* pmodel2 = glmReadOBJ("data/flowers.obj");
+//GLMmodel* pmodel3 = glmReadOBJ("data/rose+vase.obj");
+//GLMmodel* pmodel4 = glmReadOBJ("data/al.obj");
 
 //Makes the image into a texture, and returns the id of the texture
 GLuint loadTexture(Image* image) {
@@ -69,7 +69,7 @@ GLuint loadTexture(Image* image) {
 GLuint _textureId; //The id of the texture
 GLuint _textureId1; //The id of the texture
 
-void initRendering() 
+void initRendering()
 {
     Image* image = loadBMP("floor1.bmp");
     _textureId = loadTexture(image);
