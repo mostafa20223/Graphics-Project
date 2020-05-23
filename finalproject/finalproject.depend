@@ -212,7 +212,7 @@
 1301111156 c:\program files (x86)\codeblocks\mingw\include\oleidl.h
 	<objfwd.h>
 
-976692172 c:\program files (x86)\codeblocks\mingw\include\gl\glut.h
+1590155880 c:\program files (x86)\codeblocks\mingw\include\gl\glut.h
 	<windows.h>
 	<GL/gl.h>
 	<GL/glu.h>
@@ -258,4 +258,33 @@
 1341006780 c:\program files (x86)\codeblocks\mingw\include\sys\types.h
 	<_mingw.h>
 	<stddef.h>
+
+1590189476 source:d:\finalproject\glm.cpp
+	<windows.h>
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+	"glm.h"
+
+1590159392 d:\finalproject\glm.h
+	<GLUT/glut.h>
+	<GL/glut.h>
+
+1590159392 source:d:\finalproject\imageloader.cpp
+	<assert.h>
+	<fstream>
+	"imageloader.h"
+
+1590159392 d:\finalproject\imageloader.h
+
+1590197300 source:d:\finalproject\main.cpp
+	<windows.h>
+	<GLUT/glut.h>
+	<GL/glut.h>
+	<stdlib.h>
+	<math.h>
+	"glm.h"
+	"imageloader.h"
 
