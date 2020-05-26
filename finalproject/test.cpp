@@ -9,13 +9,11 @@ float aspect = float(windowWidth) / float(windowHeight);
 
 float DRot = 90;
 float Zmax, Zmin;
-GLMmodel* pmodel;
 float VRot =0.0;
 
+GLMmodel* pmodel;
 GLMmodel* pmodel1;
-GLMmodel* pmodel2 = glmReadOBJ("data/flowers.obj");
-GLMmodel* pmodel3 = glmReadOBJ("data/rose+vase.obj");
-GLMmodel* pmodel4 = glmReadOBJ("data/al.obj");
+
 double eye[] = { 0, 0, 0 };
 double center[] = { 0, 0, -1 };
 double up[] = { 0, 1, 0 };
@@ -81,7 +79,7 @@ GLuint startList;
 
 //Initializes 3D rendering
 void initRendering() {
-     	 Image* image = loadBMP("floor.bmp");
+     	 Image* image = loadBMP("test.bmp");
       	_textureId = loadTexture(image);
       	delete image;
        // Turn on the power
@@ -109,42 +107,10 @@ void initRendering() {
         glShadeModel(GL_SMOOTH);
         // Enable Depth buffer
         glEnable(GL_DEPTH_TEST);
-
-    //     	startList = glGenLists(4);
-	// glNewList(startList, GL_COMPILE);
-	// glRotatef(90, 0, 1, 0);
-    // 	glScalef(1, 1.2, 1);
-    // 	glTranslatef(1.7, -0.05, -.3);
-	// pmodel1 = pmodel4;
-	// drawmodel();
-	// glEndList();
-	
-	// glNewList(startList + 1, GL_COMPILE);
-	// 	glRotatef(270, 0, 1, 0);
-    // 	glScalef(1, 1.2, 1);
-    // 	glTranslatef(-1.7, -0.05, -.3);
-	// pmodel1 = pmodel4;
-	// drawmodel();
-	// glEndList();
-
-	// glNewList(startList + 2, GL_COMPILE);
-	// glTranslatef(0.3, -.1, 0.075);
-	// pmodel1 = pmodel2;
-	// drawmodel();
-	// glEndList();
-
-	// glNewList(startList + 3, GL_COMPILE);
-	// glTranslatef(-0.6, 0, 0.0);
-	// pmodel1 = pmodel2;
-	// drawmodel();	
-	// glEndList();
-
-
 }
 
 void rotatePoint(double a[], double theta, double p[])
 {
-
 	double temp[3];
 	temp[0] = p[0];
 	temp[1] = p[1];
@@ -185,8 +151,6 @@ void turnLeft()
 	double speed = 3.1415 / 100;
 	double direction[] = { 0, 1, 0 };
 	rotatePoint(direction, speed, center);
-
-
 }
 
 void turnRight()
@@ -194,9 +158,6 @@ void turnRight()
 	double speed = -3.1415 / 100;
 	double direction[] = { 0, 1, 0 };
 	rotatePoint(direction, speed, center);
-
-
-
 }
 
 void moveUp()
@@ -207,16 +168,12 @@ void moveUp()
 
 void moveDown()
 {
-
 	double speed = -0.01;
 	center[1] += speed;
-
 }
 
 void moveForward()
 {
-
-
 	double speed = .01;
 	double direction[3];
 	direction[0] = center[0] - eye[0];
@@ -229,12 +186,10 @@ void moveForward()
 
 	center[0] += direction[0] * speed;
 	center[2] += direction[2] * speed;
-
 }
 
 void moveBack()
 {
-
 	double speed = -0.01;
 	double direction[3];
 	direction[0] = center[0] - eye[0];
@@ -243,18 +198,14 @@ void moveBack()
 
 	normalize(direction);
 
-
 	eye[0] += direction[0] * speed;
 	eye[2] += direction[2] * speed;
 
 	center[0] += direction[0] * speed;
 	center[2] += direction[2] * speed;
-
-
 }
 
-void
-screen_menu(int value)
+void screen_menu(int value)
 {
 	char* name = 0;
 
@@ -298,7 +249,7 @@ screen_menu(int value)
 }
 
 
-void drawmodel1(void)
+/*void drawmodel1(void)
 {
 	if (!pmodel) {
 		pmodel = glmReadOBJ("data/rose+vase.obj");
@@ -310,13 +261,11 @@ void drawmodel1(void)
 		glmScale(pmodel, .15);
 	}
 	glmDraw(pmodel, GLM_SMOOTH | GLM_MATERIAL);
-}
+}*/
 
 
 void display(void)
 {
-
-
 	glClearColor(0.0, 0.0, 0.0, 0.0);
         // Clear Depth and Color buffers
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -367,14 +316,15 @@ void display(void)
     	glTranslatef(0.0, 0.015, -1.6);
     	glRotatef(VRot,0,1,0);
     	// glScalef(.25, .25, .25);
-    	drawmodel1();
+    	//drawmodel1();
 	glPopMatrix();
 
 	glPopMatrix();
 	glutSwapBuffers();
 }
 
-void Timer(int x){
+void Timer(int x)
+{
 	// Refresh and redraw
 	glutPostRedisplay();
 	glutTimerFunc(50, Timer, 0);
@@ -475,8 +425,6 @@ void DTimer1(int x){
 		return;
 	glutPostRedisplay();
 	glutTimerFunc(30, DTimer1, 0);
-
-
 }
 
 void DTimer2(int x){
@@ -535,8 +483,6 @@ int main (int argc, char** argv)
 	glMatrixMode(GL_PROJECTION);
 	gluPerspective(60, aspect, 0.1, 10);
 
-
-
 	glutDisplayFunc(display);
 	glutSpecialFunc(specialKeys);
 	glutKeyboardFunc(Keyboard);
@@ -557,5 +503,4 @@ int main (int argc, char** argv)
 	glutTimerFunc(0,Timer1,0);
 	glutMainLoop();
 	return 0;
-
 }
