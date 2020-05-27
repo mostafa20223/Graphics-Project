@@ -1,5 +1,7 @@
+#include <windows.h>
 #include <math.h>
 #include <GL/glut.h>
+#include <stdlib.h>
 #include "glm.h"
 #include "imageloader.h"
 
@@ -41,23 +43,23 @@ GLfloat lightPos1[] = {-0.5,-5.0,-2.0, 1.0 };
 // Material Properties
 GLfloat mat_amb_diff[] = {0.643, 0.753, 0.934, 1.0 };
 GLfloat mat_specular[] = { 0.0, 0.0, 0.0, 1.0 };
-GLfloat shininess[] = {100.0 };  
+GLfloat shininess[] = {100.0 };
 //left teapot specular
 GLfloat teapotl_diff[] = { 0.0,0.0, 1.0, 1.0 };
 GLfloat teapotl_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-GLfloat teapotl_shininess[] = {10.0 };  
+GLfloat teapotl_shininess[] = {10.0 };
 //middle teapot diffuse
 GLfloat teapotm_diff[] = { 1.0, 0, 0.0, 1.0 };
 GLfloat teapotm_specular[] = { 0.0, 0.0, 0.0, 0.0 };
-GLfloat teapotm_shininess[] = {1.0 };  
+GLfloat teapotm_shininess[] = {1.0 };
 //right teapot glosy
 GLfloat teapotr_diff[] = { 1.0, .0, 0.0, 1.0 };
 GLfloat teapotr_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-GLfloat teapotr_shininess[] = {1000.0 };  
+GLfloat teapotr_shininess[] = {1000.0 };
 //cube
 GLfloat cube_diff[] = {1.0,0.0, 0.0, 1.0 };
 GLfloat cube_specular[] = { 0.5, 0.5, 0.5, 1.0 };
-GLfloat cube_shininess[] = {10.0 }; 
+GLfloat cube_shininess[] = {10.0 };
 //Makes the image into a texture, and returns the id of the texture
 GLuint loadTexture(Image* image) {
       GLuint textureId;
@@ -78,30 +80,6 @@ GLuint loadTexture(Image* image) {
 
 GLuint _textureId; //The id of the texture
 GLuint _textureId1; //The id of the texture
-
-
-/*void drawmodel1();
-
-// Makes the image into a texture, and returns the id of the texture
-GLuint loadTexture(Image* image) {
-      GLuint textureId;
-      glGenTextures(1, &textureId); // Make room for our texture
-      glBindTexture(GL_TEXTURE_2D, textureId); //Tell OpenGL which texture to edit
-      //Map the image to the texture
-      glTexImage2D(GL_TEXTURE_2D,                //Always GL_TEXTURE_2D
-                               0,                            //0 for now
-                               GL_RGB,                       //Format OpenGL uses for image
-                               image->width, image->height,  //Width and height
-                               0,                            //The border of the image
-                               GL_RGB, //GL_RGB, because pixels are stored in RGB format
-                               GL_UNSIGNED_BYTE, //GL_UNSIGNED_BYTE, because pixels are stored
-                                                 //as unsigned numbers
-                               image->pixels);               //The actual pixel data
-      return textureId; //Returns the id of the texture
-}
-
-GLuint _textureId; //The id of the texture
-GLuint _textureId1; //The id of the texture*/
 
 void drawmodel(void)
 {
@@ -131,7 +109,7 @@ void initRendering() {
         glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient);
         glLightfv(GL_LIGHT1, GL_DIFFUSE, light_diffuse);
         glLightfv(GL_LIGHT1, GL_SPECULAR, light_specular);
-	// Material Properties         
+	// Material Properties
         glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE,mat_amb_diff);
         glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
         glMaterialfv(GL_FRONT, GL_SHININESS, shininess);
@@ -270,7 +248,7 @@ void moveBack()
 void drawmodel1(void)
 {
 	if (!pmodel) {
-		pmodel = glmReadOBJ("/home/zeyad-taher/Desktop/Graphics-Project/finalproject/data/rose+vase.mtl");
+		pmodel = glmReadOBJ("D:/Graphics-Project/finalproject/data/rose+vase.mtl");
 
 		if (!pmodel) exit(0);
 //		glTranslatef(20.0, 0.0, 0.0);
@@ -566,7 +544,7 @@ void display(void)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
         glBegin(GL_QUADS);
-       
+
 	glNormal3f(0.0,-1.0,0.0);
 	glTexCoord2f(0.0f, 0.0f);
         glVertex3f(-0.5,-0.25,2);

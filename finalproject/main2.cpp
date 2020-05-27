@@ -1,3 +1,4 @@
+#include <windows.h>
 #include <math.h>
 #include <GL/glut.h>
 #include "glm.h"
@@ -29,23 +30,23 @@ GLfloat lightPos1[] = {-0.5,-5.0,-2.0, 1.0 };
 // Material Properties
 GLfloat mat_amb_diff[] = {0.643, 0.753, 0.934, 1.0 };
 GLfloat mat_specular[] = { 0.0, 0.0, 0.0, 1.0 };
-GLfloat shininess[] = {100.0 };  
+GLfloat shininess[] = {100.0 };
 //left teapot specular
 GLfloat teapotl_diff[] = { 0.0,0.0, 1.0, 1.0 };
 GLfloat teapotl_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-GLfloat teapotl_shininess[] = {10.0 };  
+GLfloat teapotl_shininess[] = {10.0 };
 //middle teapot diffuse
 GLfloat teapotm_diff[] = { 1.0, 0, 0.0, 1.0 };
 GLfloat teapotm_specular[] = { 0.0, 0.0, 0.0, 0.0 };
-GLfloat teapotm_shininess[] = {1.0 };  
+GLfloat teapotm_shininess[] = {1.0 };
 //right teapot glosy
 GLfloat teapotr_diff[] = { 1.0, .0, 0.0, 1.0 };
 GLfloat teapotr_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-GLfloat teapotr_shininess[] = {1000.0 };  
+GLfloat teapotr_shininess[] = {1000.0 };
 //cube
 GLfloat cube_diff[] = {1.0,0.0, 0.0, 1.0 };
 GLfloat cube_specular[] = { 0.5, 0.5, 0.5, 1.0 };
-GLfloat cube_shininess[] = {10.0 }; 
+GLfloat cube_shininess[] = {10.0 };
 //Makes the image into a texture, and returns the id of the texture
 GLuint loadTexture(Image* image) {
       GLuint textureId;
@@ -96,7 +97,7 @@ void initRendering() {
         glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient);
         glLightfv(GL_LIGHT1, GL_DIFFUSE, light_diffuse);
         glLightfv(GL_LIGHT1, GL_SPECULAR, light_specular);
-	// Material Properties         
+	// Material Properties
         glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE,mat_amb_diff);
         glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
         glMaterialfv(GL_FRONT, GL_SHININESS, shininess);
@@ -118,7 +119,7 @@ void initRendering() {
 	// pmodel1 = pmodel4;
 	// drawmodel();
 	// glEndList();
-	
+
 	// glNewList(startList + 1, GL_COMPILE);
 	// 	glRotatef(270, 0, 1, 0);
     // 	glScalef(1, 1.2, 1);
@@ -136,7 +137,7 @@ void initRendering() {
 	// glNewList(startList + 3, GL_COMPILE);
 	// glTranslatef(-0.6, 0, 0.0);
 	// pmodel1 = pmodel2;
-	// drawmodel();	
+	// drawmodel();
 	// glEndList();
 
 
@@ -348,7 +349,7 @@ void display(void)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
         glBegin(GL_QUADS);
-       
+
 	glNormal3f(0.0,-1.0,0.0);
 	glTexCoord2f(0.0f, 0.0f);
         glVertex3f(-0.5,-0.25,2);
@@ -525,7 +526,7 @@ void Keyboard(unsigned char Key, int x, int y){
 
 int main (int argc, char** argv)
 {
-	
+
 	glutInit(&argc, argv);
 	glutInitWindowSize(windowWidth, windowHeight);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
