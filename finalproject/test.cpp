@@ -27,14 +27,26 @@ float aspect = float(windowWidth) / float(windowHeight);
 
 float DRot = 90;
 float Zmax, Zmin;
+<<<<<<< HEAD
 GLMmodel* pmodel;
 float VRot = 0.0;
+=======
+float VRot =0.0;
+>>>>>>> 2b975dc120ee956c72038147870904d9a0548a51
 
+GLMmodel* pmodel;
 GLMmodel* pmodel1;
+<<<<<<< HEAD
 GLMmodel* pmodel2 = glmReadOBJ("D:/Graphics-Project/finalproject/data/flowers.obj");
 GLMmodel* pmodel3 = glmReadOBJ("D:/Graphics-Project/finalproject/data/rose+vase.obj");
 GLMmodel* pmodel4 = glmReadOBJ("D:/Graphics-Project/finalproject/data/al.obj");
 
+=======
+
+double eye[] = { 0, 0, 0 };
+double center[] = { 0, 0, -1 };
+double up[] = { 0, 1, 0 };
+>>>>>>> 2b975dc120ee956c72038147870904d9a0548a51
 // RGBA
 GLfloat light_ambient[] = { 0.0, 0.0, 0.0, 0.0 };
 GLfloat light_diffuse[] = { 0.5, 0.5, 0.5,1.0 };
@@ -97,7 +109,11 @@ GLuint startList;
 
 // Initializes 3D rendering
 void initRendering() {
+<<<<<<< HEAD
      	 Image* image = loadBMP("D:/Graphics-Project/finalproject/floor.bmp");
+=======
+     	 Image* image = loadBMP("test.bmp");
+>>>>>>> 2b975dc120ee956c72038147870904d9a0548a51
       	_textureId = loadTexture(image);
       	delete image;
        // Turn on the power
@@ -125,6 +141,7 @@ void initRendering() {
         glShadeModel(GL_SMOOTH);
         // Enable Depth buffer
         glEnable(GL_DEPTH_TEST);
+<<<<<<< HEAD
 
     //     	startList = glGenLists(4);
 	// glNewList(startList, GL_COMPILE);
@@ -156,6 +173,8 @@ void initRendering() {
 	// glEndList();
 
 
+=======
+>>>>>>> 2b975dc120ee956c72038147870904d9a0548a51
 }
 
 void rotatePoint(double a[], double theta, double p[])
@@ -239,13 +258,22 @@ void moveBack()
 	direction[1] = center[1] - eye[1];
 	direction[2] = center[2] - eye[2];
 	normalize(direction);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2b975dc120ee956c72038147870904d9a0548a51
 	eye[0] += direction[0] * speed;
 	eye[2] += direction[2] * speed;
 	center[0] += direction[0] * speed;
 	center[2] += direction[2] * speed;
 }
 
+<<<<<<< HEAD
 void screen_menu(int value) {
+=======
+void screen_menu(int value)
+{
+>>>>>>> 2b975dc120ee956c72038147870904d9a0548a51
 	char* name = 0;
 	switch (value) {
 	case '1':
@@ -284,7 +312,12 @@ void screen_menu(int value) {
 	glutPostRedisplay();
 }
 
+<<<<<<< HEAD
 void drawmodel1(void)
+=======
+
+/*void drawmodel1(void)
+>>>>>>> 2b975dc120ee956c72038147870904d9a0548a51
 {
 	if (!pmodel) {
 		pmodel = glmReadOBJ("D:/Graphics-Project/finalproject/data/rose+vase.obj");
@@ -295,10 +328,11 @@ void drawmodel1(void)
 		glmScale(pmodel, .15);
 	}
 	glmDraw(pmodel, GLM_SMOOTH | GLM_MATERIAL);
-}
+}*/
 
 void display(void)
 {
+<<<<<<< HEAD
     glClearColor(0.0, 0.0, 0.0, 0.0);
     // Clear Depth and Color buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -307,6 +341,11 @@ void display(void)
     glLoadIdentity();
 
     gluLookAt(eye[0], eye[1], eye[2], center[0], center[1], center[2], up[0], up[1], up[2]);
+=======
+	glClearColor(0.0, 0.0, 0.0, 0.0);
+        // Clear Depth and Color buffers
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+>>>>>>> 2b975dc120ee956c72038147870904d9a0548a51
 
     glPushMatrix();
         glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
@@ -350,7 +389,7 @@ void display(void)
     	glTranslatef(0.0, 0.015, -1.6);
     	glRotatef(VRot,0,1,0);
     	// glScalef(.25, .25, .25);
-    	drawmodel1();
+    	//drawmodel1();
 	glPopMatrix();
 
     // Header
@@ -418,7 +457,12 @@ void display(void)
 	glutSwapBuffers();
 }
 
+<<<<<<< HEAD
 void Timer(int x) {
+=======
+void Timer(int x)
+{
+>>>>>>> 2b975dc120ee956c72038147870904d9a0548a51
 	// Refresh and redraw
 	glutPostRedisplay();
 	glutTimerFunc(50, Timer, 0);
@@ -937,6 +981,10 @@ int main (int argc, char** argv) {
 	initRendering();
 	glMatrixMode(GL_PROJECTION);
 	gluPerspective(60, aspect, 0.1, 10);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2b975dc120ee956c72038147870904d9a0548a51
 	glutDisplayFunc(display);
 	glutSpecialFunc(specialKeys);
 	glutKeyboardFunc(Keyboard);
