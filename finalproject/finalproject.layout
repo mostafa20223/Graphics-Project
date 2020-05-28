@@ -12,9 +12,10 @@
 			<Cursor1 position="375" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="test.cpp" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="test.cpp" open="1" top="1" tabpos="3" split="2" active="2" splitpos="592" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="0" topLine="0" />
+			<Cursor1 position="10313" topLine="292" />
+			<Cursor2 position="15623" topLine="432" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

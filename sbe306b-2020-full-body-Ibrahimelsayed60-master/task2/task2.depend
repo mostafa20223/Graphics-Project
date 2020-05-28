@@ -209,7 +209,7 @@
 1301111156 c:\program files (x86)\codeblocks\mingw\include\oleidl.h
 	<objfwd.h>
 
-976692172 c:\program files (x86)\codeblocks\mingw\include\gl\glut.h
+1590155880 c:\program files (x86)\codeblocks\mingw\include\gl\glut.h
 	<windows.h>
 	<GL/gl.h>
 	<GL/glu.h>
@@ -221,6 +221,12 @@
 	<GL/gl.h>
 
 1585335738 source:d:\opengl tasks\task2\task2 practice\task\sbe306b-2020-full-body-ibrahimelsayed60\task2\main.cpp
+	<windows.h>
+	<GLUT/glut.h>
+	<GL/glut.h>
+	<stdlib.h>
+
+1590331916 source:d:\graphics-project\sbe306b-2020-full-body-ibrahimelsayed60-master\task2\main.cpp
 	<windows.h>
 	<GLUT/glut.h>
 	<GL/glut.h>
