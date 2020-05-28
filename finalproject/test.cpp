@@ -9,7 +9,7 @@ static int hor2 = 0, hor1 = 0, chest = 0, fi_half = 0, se_half = 0, fi_half2 = 0
 static int fingerBase2 = 0, fingerBase3 = 0, fingerBase4 = 0, fingerBase5 = 0, fingerBase6 = 0, fingerBase7 = 0, fingerBase8 = 0;
 static int fingerUp3 = 0, fingerUp4 = 0, fingerUp5 = 0, fingerUp6 = 0, fingerUp7 = 0, fingerUp8 = 0;
 static int shoulder = 0, shoulder2 = 0;
-double eye[] = { 0, 0, -10 };
+double eye[] = { 0, 0, 0 };
 double center[] = { 0, 0, -1 };
 double up[] = { 0, 1, 0 };
 double direction[] = { 0, 0, 0 };
@@ -27,53 +27,41 @@ float aspect = float(windowWidth) / float(windowHeight);
 
 float DRot = 90;
 float Zmax, Zmin;
-<<<<<<< HEAD
 GLMmodel* pmodel;
 float VRot = 0.0;
-=======
-float VRot =0.0;
->>>>>>> 2b975dc120ee956c72038147870904d9a0548a51
 
-GLMmodel* pmodel;
 GLMmodel* pmodel1;
-<<<<<<< HEAD
 GLMmodel* pmodel2 = glmReadOBJ("D:/Graphics-Project/finalproject/data/flowers.obj");
 GLMmodel* pmodel3 = glmReadOBJ("D:/Graphics-Project/finalproject/data/rose+vase.obj");
 GLMmodel* pmodel4 = glmReadOBJ("D:/Graphics-Project/finalproject/data/al.obj");
 
-=======
-
-double eye[] = { 0, 0, 0 };
-double center[] = { 0, 0, -1 };
-double up[] = { 0, 1, 0 };
->>>>>>> 2b975dc120ee956c72038147870904d9a0548a51
 // RGBA
 GLfloat light_ambient[] = { 0.0, 0.0, 0.0, 0.0 };
 GLfloat light_diffuse[] = { 0.5, 0.5, 0.5,1.0 };
-GLfloat light_specular[] = {1.0, 1.0, 1.0, 1.0 };
+GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
 // x, y, z, w
-GLfloat light_position[] = {0.5,5.0, 0.0, 1.0 };
-GLfloat lightPos1[] = {-0.5,-5.0,-2.0, 1.0 };
+GLfloat light_position[] = { 0.5, 5.0, 0.0, 1.0 };
+GLfloat lightPos1[] = { -0.5, -5.0, -2.0, 1.0 };
 // Material Properties
-GLfloat mat_amb_diff[] = {0.643, 0.753, 0.934, 1.0 };
+GLfloat mat_amb_diff[] = { 0.643, 0.753, 0.934, 1.0 };
 GLfloat mat_specular[] = { 0.0, 0.0, 0.0, 1.0 };
-GLfloat shininess[] = {100.0 };
+GLfloat shininess[] = { 100.0 };
 // Left teapot specular
-GLfloat teapotl_diff[] = { 0.0,0.0, 1.0, 1.0 };
+GLfloat teapotl_diff[] = { 0.0, 0.0, 1.0, 1.0 };
 GLfloat teapotl_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-GLfloat teapotl_shininess[] = {10.0 };
+GLfloat teapotl_shininess[] = { 10.0 };
 // Middle teapot diffuse
 GLfloat teapotm_diff[] = { 1.0, 0, 0.0, 1.0 };
 GLfloat teapotm_specular[] = { 0.0, 0.0, 0.0, 0.0 };
-GLfloat teapotm_shininess[] = {1.0 };
+GLfloat teapotm_shininess[] = { 1.0 };
 // Right teapot glosy
 GLfloat teapotr_diff[] = { 1.0, .0, 0.0, 1.0 };
 GLfloat teapotr_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-GLfloat teapotr_shininess[] = {1000.0 };
+GLfloat teapotr_shininess[] = { 1000.0 };
 // Cube
-GLfloat cube_diff[] = {1.0,0.0, 0.0, 1.0 };
+GLfloat cube_diff[] = { 1.0, 0.0, 0.0, 1.0 };
 GLfloat cube_specular[] = { 0.5, 0.5, 0.5, 1.0 };
-GLfloat cube_shininess[] = {10.0 };
+GLfloat cube_shininess[] = { 10.0 };
 
 // Makes the image into a texture, and returns the id of the texture
 GLuint loadTexture(Image* image) {
@@ -96,89 +84,39 @@ GLuint loadTexture(Image* image) {
 GLuint _textureId; //The id of the texture
 GLuint _textureId1; //The id of the texture
 
-void drawmodel(void)
-{
-		glmUnitize(pmodel1);
-		glmFacetNormals(pmodel1);
-		glmVertexNormals(pmodel1, 90.0);
-		glmScale(pmodel1, .15);
-		glmDraw(pmodel1, GLM_SMOOTH | GLM_MATERIAL);
-}
-
-GLuint startList;
-
 // Initializes 3D rendering
 void initRendering() {
-<<<<<<< HEAD
-     	 Image* image = loadBMP("D:/Graphics-Project/finalproject/floor.bmp");
-=======
-     	 Image* image = loadBMP("test.bmp");
->>>>>>> 2b975dc120ee956c72038147870904d9a0548a51
+     	 Image* image = loadBMP("D:/Graphics-Project/finalproject/floor4.bmp");
       	_textureId = loadTexture(image);
       	delete image;
-       // Turn on the power
+      	// Turn on the power
         glEnable(GL_LIGHTING);
         // Flip light switch
         glEnable(GL_LIGHT0);
         glEnable(GL_LIGHT1);
-        // assign light parameters
+        // Assign light parameters
         glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
         glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
         glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
         glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient);
         glLightfv(GL_LIGHT1, GL_DIFFUSE, light_diffuse);
         glLightfv(GL_LIGHT1, GL_SPECULAR, light_specular);
-	// Material Properties
+        // Material Properties
         glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE,mat_amb_diff);
         glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
         glMaterialfv(GL_FRONT, GL_SHININESS, shininess);
-	GLfloat lightColor1[] = {1.0f, 1.0f,  1.0f, 1.0f };
+        GLfloat lightColor1[] = {1.0f, 1.0f,  1.0f, 1.0f };
         glLightfv(GL_LIGHT1, GL_DIFFUSE, lightColor1);
         glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
         glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor1);
         glEnable(GL_NORMALIZE);
-        //Enable smooth shading
+        // Enable smooth shading
         glShadeModel(GL_SMOOTH);
         // Enable Depth buffer
         glEnable(GL_DEPTH_TEST);
-<<<<<<< HEAD
-
-    //     	startList = glGenLists(4);
-	// glNewList(startList, GL_COMPILE);
-	// glRotatef(90, 0, 1, 0);
-    // 	glScalef(1, 1.2, 1);
-    // 	glTranslatef(1.7, -0.05, -.3);
-	// pmodel1 = pmodel4;
-	// drawmodel();
-	// glEndList();
-
-	// glNewList(startList + 1, GL_COMPILE);
-	// 	glRotatef(270, 0, 1, 0);
-    // 	glScalef(1, 1.2, 1);
-    // 	glTranslatef(-1.7, -0.05, -.3);
-	// pmodel1 = pmodel4;
-	// drawmodel();
-	// glEndList();
-
-	// glNewList(startList + 2, GL_COMPILE);
-	// glTranslatef(0.3, -.1, 0.075);
-	// pmodel1 = pmodel2;
-	// drawmodel();
-	// glEndList();
-
-	// glNewList(startList + 3, GL_COMPILE);
-	// glTranslatef(-0.6, 0, 0.0);
-	// pmodel1 = pmodel2;
-	// drawmodel();
-	// glEndList();
-
-
-=======
->>>>>>> 2b975dc120ee956c72038147870904d9a0548a51
 }
 
-void rotatePoint(double a[], double theta, double p[])
-{
+void rotatePoint(double a[], double theta, double p[]) {
 	double temp[3];
 	temp[0] = p[0];
 	temp[1] = p[1];
@@ -200,8 +138,7 @@ void rotatePoint(double a[], double theta, double p[])
 	p[2] = temp[2];
 }
 
-void normalize(double a[])
-{
+void normalize(double a[]) {
 	double norm;
 	norm = a[0] * a[0] + a[1] * a[1] + a[2] * a[2];
 	norm = sqrt(norm);
@@ -210,34 +147,29 @@ void normalize(double a[])
 	a[2] /= norm;
 }
 
-void turnLeft()
-{
+void turnLeft() {
 	double speed = 3.1415 / 100;
 	double direction[] = { 0, 1, 0 };
 	rotatePoint(direction, speed, center);
 }
 
-void turnRight()
-{
+void turnRight() {
 	double speed = -3.1415 / 100;
 	double direction[] = { 0, 1, 0 };
 	rotatePoint(direction, speed, center);
 }
 
-void moveUp()
-{
+void moveUp() {
 	double speed = 0.01;
 	center[1] += speed;
 }
 
-void moveDown()
-{
+void moveDown() {
 	double speed = -0.01;
 	center[1] += speed;
 }
 
-void moveForward()
-{
+void moveForward() {
 	double speed = .01;
 	double direction[3];
 	direction[0] = center[0] - eye[0];
@@ -250,45 +182,35 @@ void moveForward()
 	center[2] += direction[2] * speed;
 }
 
-void moveBack()
-{
+void moveBack() {
 	double speed = -0.01;
 	double direction[3];
 	direction[0] = center[0] - eye[0];
 	direction[1] = center[1] - eye[1];
 	direction[2] = center[2] - eye[2];
 	normalize(direction);
-<<<<<<< HEAD
-=======
-
->>>>>>> 2b975dc120ee956c72038147870904d9a0548a51
 	eye[0] += direction[0] * speed;
 	eye[2] += direction[2] * speed;
 	center[0] += direction[0] * speed;
 	center[2] += direction[2] * speed;
 }
 
-<<<<<<< HEAD
 void screen_menu(int value) {
-=======
-void screen_menu(int value)
-{
->>>>>>> 2b975dc120ee956c72038147870904d9a0548a51
 	char* name = 0;
 	switch (value) {
-	case '1':
+	case '2':
 		name = "D:/Graphics-Project/finalproject/data/al.obj";
 		break;
-	case '2':
+	case '1':
 		name = "D:/Graphics-Project/finalproject/data/soccerball.obj";
 		break;
-	case '3':
+	case '4':
 		name = "D:/Graphics-Project/finalproject/data/dolphins.obj";
 		break;
-	case '4':
+	case '5':
 		name = "D:/Graphics-Project/finalproject/data/flowers.obj";
 		break;
-	case '5':
+	case '3':
 		name = "D:/Graphics-Project/finalproject/data/f-16.obj";
 		break;
 	case '6':
@@ -307,149 +229,321 @@ void screen_menu(int value)
 		glmUnitize(pmodel);
 		glmFacetNormals(pmodel);
 		glmVertexNormals(pmodel, 90.0);
-		glmScale(pmodel, .15);
+		glmScale(pmodel, 0.15);
 	}
 	glutPostRedisplay();
 }
 
-<<<<<<< HEAD
 void drawmodel1(void)
-=======
-
-/*void drawmodel1(void)
->>>>>>> 2b975dc120ee956c72038147870904d9a0548a51
 {
 	if (!pmodel) {
-		pmodel = glmReadOBJ("D:/Graphics-Project/finalproject/data/rose+vase.obj");
+		pmodel = glmReadOBJ("D:/Graphics-Project/finalproject/data/desk.obj");
 		if (!pmodel) exit(0);
 		glmUnitize(pmodel);
 		glmFacetNormals(pmodel);
 		glmVertexNormals(pmodel, 90.0);
-		glmScale(pmodel, .15);
+		glmScale(pmodel, 0.15);
 	}
 	glmDraw(pmodel, GLM_SMOOTH | GLM_MATERIAL);
-}*/
+}
+
+GLuint startList;
 
 void display(void)
 {
-<<<<<<< HEAD
     glClearColor(0.0, 0.0, 0.0, 0.0);
     // Clear Depth and Color buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-
     gluLookAt(eye[0], eye[1], eye[2], center[0], center[1], center[2], up[0], up[1], up[2]);
-=======
-	glClearColor(0.0, 0.0, 0.0, 0.0);
-        // Clear Depth and Color buffers
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
->>>>>>> 2b975dc120ee956c72038147870904d9a0548a51
-
     glPushMatrix();
         glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
         glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-        glPopMatrix();
-        //materials properties
-        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE,mat_amb_diff);
-        glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-        glMaterialfv(GL_FRONT, GL_SHININESS, shininess);
+    glPopMatrix();
 
-        glPushMatrix();
-        glTranslatef(0, 0, -1);
+    // Materials properties
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, mat_amb_diff);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, shininess);
 
-        // Floor
-        glPushMatrix();
+    glPushMatrix();
+    glTranslatef(0, 0, -1);
+
+    // Floor
+    glPushMatrix();
         glEnable(GL_TEXTURE_2D);
             glBindTexture(GL_TEXTURE_2D, _textureId);
-
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
         glBegin(GL_QUADS);
-
-	glNormal3f(0.0, -1.0, 0.0);
-	glTexCoord2f(0.0f, 0.0f);
-        glVertex3f(-0.5, -0.25, 2);
-        glTexCoord2f(5.0f, 0.0f);
-        glVertex3f(0.5, -0.25, 2.0);
-        glTexCoord2f(5.0f, 20.0f);
-        glVertex3f(0.5, -0.25, -2.0);
-        glTexCoord2f(0.0f, 20.0f);
-        glVertex3f(-0.5, -0.25, -2.0);
+            glNormal3f(0.0, -1.0, 0.0);
+            glTexCoord2f(0.0f, 0.0f);
+            glVertex3f(-0.5, -0.25, 2);
+            glTexCoord2f(5.0f, 0.0f);
+            glVertex3f(0.5, -0.25, 2.0);
+            glTexCoord2f(5.0f, 20.0f);
+            glVertex3f(0.5, -0.25, -2.0);
+            glTexCoord2f(0.0f, 20.0f);
+            glVertex3f(-0.5, -0.25, -2.0);
         glEnd();
-	glDisable(GL_TEXTURE_2D);
+        glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
 
-	glPopMatrix();
-
-    glPushMatrix();
-    	glTranslatef(0.0, 0.015, -1.6);
-    	glRotatef(VRot,0,1,0);
-    	// glScalef(.25, .25, .25);
-    	//drawmodel1();
-	glPopMatrix();
+//    // Object
+//    glPushMatrix();
+//    	glTranslatef(-0.1, 0.015, 0.5);
+////    	glRotatef(VRot, 0.0, 1.0, 0.0);
+//        glScalef(1.0, 1.0, 1.0);
+//    	drawmodel1();
+//	glPopMatrix();
 
     // Header
     glPushMatrix();
-        glTranslatef(0.0, 2.0, -6.0);
+        glTranslatef(0.0, 0.8, -1.0);
         glPushMatrix();
-            glScalef(0.2, 0.2, 0.2);
+            glScalef(0.1, 0.1, 0.1);
             glutWireSphere(0.5, 8.0, 8.0);
         glPopMatrix();
     glPopMatrix();
 
     // Right Leg, Right Leg Second Half and Solid Leg
     glPushMatrix();
-        glTranslatef(-0.7, -1.2, 0.0);
+        glTranslatef(-0.2, 0.03, -1.0);
         glTranslatef(0.0, 0.6, 0.0);
         glRotatef((GLfloat)fi_half, 1.0, 0.0, 0.0);
         glRotatef((GLfloat)hor1, 0.0, 0.0, 1.0);
         glTranslatef(0.0, -0.6, 0.0);
         glPushMatrix();
-            glScalef(0.25, 0.75, 0.25);
-            glutWireCube(1);
+            glScalef(0.1, 0.3, 0.1);
+            glutWireCube(0.5);
         glPopMatrix();
-        glTranslatef(0.0, -0.8, 0.0);
+        glTranslatef(0.0, -0.15, 0.0);
         glTranslatef(0.0, 0.8, 0.0);
         glRotatef((GLfloat)fi_half1, 1.0, 0.0, 0.0);
         glTranslatef(0.0, -0.8, 0.0);
         glPushMatrix();
-            glScalef(0.25, 0.75, 0.25);
-            glutWireCube(1);
+            glScalef(0.1, 0.3, 0.1);
+            glutWireCube(0.5);
         glPopMatrix();
-        glTranslatef(0.0, -0.5, 0.0);
+        glTranslatef(0.0, -0.1, 0.0);
         glPushMatrix();
-            glScalef(0.25, 0.25, 0.5);
-            glutSolidCube(1);
+            glScalef(0.1, 0.1, 0.2);
+            glutSolidCube(0.5);
         glPopMatrix();
     glPopMatrix();
 
     // Left Leg, Left Leg Second Half and Solid Leg
     glPushMatrix();
-        glTranslatef(0.7, -2.2, 0.0);
+        glTranslatef(0.2, 0.03, -1.0);
         glTranslatef(0.0, 0.6, 0.0);
         glRotatef(-(GLfloat)fi_half3, 1.0, 0.0, 0.0);
         glRotatef(-(GLfloat)hor2, 0.0, 0.0, 1.0);
         glTranslatef(0.0, -0.6, 0.0);
         glPushMatrix();
-            glScalef(0.5, 1.5, 0.5);
-            glutWireCube(1);
+            glScalef(0.1, 0.3, 0.1);
+            glutWireCube(0.5);
         glPopMatrix();
-        glTranslatef(0.0, -1.5, 0.0);
+        glTranslatef(0.0, -0.15, 0.0);
         glTranslatef(0.0, 0.8, 0.0);
         glRotatef((GLfloat)fi_half2, 1.0, 0.0, 0.0);
         glTranslatef(0.0, -0.8, 0.0);
         glPushMatrix();
-            glScalef(0.5, 1.5, 0.5);
-            glutWireCube(1);
+            glScalef(0.1, 0.3, 0.1);
+            glutWireCube(0.5);
+        glPopMatrix();
+        glTranslatef(0.0, -0.1, 0.0);
+        glPushMatrix();
+            glScalef(0.1, 0.1, 0.2);
+            glutSolidCube(0.5);
+        glPopMatrix();
+    glPopMatrix();
+
+    // Left Arm
+    glPushMatrix();
+        glTranslatef(1.4, 1.0, -0.1);
+        glTranslatef(0.0, 0.5, 0.0);
+        glRotatef((GLfloat)ar_1, 0.0, 0.0, 1.0);
+        glRotatef((GLfloat)ar_2, 0.0, 1.0, 0.0);
+        glTranslatef(0.0, -0.5, 0.0);
+        glPushMatrix();
+            glScalef(0.2, 0.5, 0.3);
+            glutWireCube(0.5);
         glPopMatrix();
         glTranslatef(0.0, -1.0, 0.0);
+        glTranslatef(0.0, 0.5, 0.0);
+        glRotatef((GLfloat)elbow, 1.0, 0.0, 0.0);
+        glTranslatef(0.0, -0.5, 0.0);
         glPushMatrix();
-            glScalef(0.5, 0.5, 1.0);
-            glutSolidCube(1);
+            glScalef(0.2, 0.5, 0.3);
+            glutWireCube(0.5);
+        glPopMatrix();
+        glPushMatrix();
+            glTranslatef(-0.2, -0.6, 0.0);
+            glTranslatef(0.0, 0.1, 0.0);
+            glRotatef((GLfloat)fingerBase, 0.0, 0.0, 1.0);
+            glTranslatef(0.0, -0.1, 0.0);
+            glPushMatrix();
+                glScalef(0.05, 0.1, 0.05);
+                glutWireCube(0.5);
+            glPopMatrix();
+            glTranslatef(0.0, -0.2, 0.0);
+            glTranslatef(0.0, 0.1, 0.0);
+            glRotatef((GLfloat)fingerUp, 0.0, 0.0, 1.0);
+            glTranslatef(0.0, -0.1, 0.0);
+            glPushMatrix();
+                glScalef(0.05, 0.1, 0.05);
+                glutWireCube(0.5);
+            glPopMatrix();
+        glPopMatrix();
+        glPushMatrix();
+            glTranslatef(0.2, -0.6, 0.0);
+            glTranslatef(0.0, 0.1, 0.0);
+            glRotatef(-(GLfloat)fingerBase1, 0.0, 0.0, 1.0);
+            glTranslatef(0.0, -0.1, 0.0);
+            glPushMatrix();
+                glScalef(0.05, 0.1, 0.05);
+                glutWireCube(0.5);
+            glPopMatrix();
+            glTranslatef(0.0, -0.2, 0.0);
+            glTranslatef(0.0, 0.1, 0.0);
+            glRotatef(-(GLfloat)fingerUp1, 0.0, 0.0, 1.0);
+            glTranslatef(0.0, -0.1, 0.0);
+            glPushMatrix();
+                glScalef(0.05, 0.1, 0.05);
+                glutWireCube(0.5);
+            glPopMatrix();
+        glPopMatrix();
+        glPushMatrix();
+            glTranslatef(0.2, -0.6, 0.25);
+            glTranslatef(0.0, 0.1, 0.0);
+            glRotatef(-(GLfloat)fingerBase2, 0.0, 0.0, 1.0);
+            glTranslatef(0.0, -0.1, 0.0);
+            glPushMatrix();
+                glScalef(0.05, 0.1, 0.05);
+                glutWireCube(0.5);
+            glPopMatrix();
+            glTranslatef(0.0, -0.2, 0.0);
+            glTranslatef(0.0, 0.1, 0.0);
+            glRotatef(-(GLfloat)fingerUp2, 0.0, 0.0, 1.0);
+            glTranslatef(0.0, -0.1, 0.0);
+            glPushMatrix();
+                glScalef(0.05, 0.1, 0.05);
+                glutWireCube(0.5);
+            glPopMatrix();
+        glPopMatrix();
+        glPushMatrix();
+            glTranslatef(0.2, -0.6, -0.25);
+            glTranslatef(0.0, 0.1, 0.0);
+            glRotatef(-(GLfloat)fingerBase3, 0.0, 0.0, 1.0);
+            glTranslatef(0.0, -0.1, 0.0);
+            glPushMatrix();
+                glScalef(0.05, 0.1, 0.05);
+                glutWireCube(0.5);
+            glPopMatrix();
+            glTranslatef(0.0, -0.2, 0.0);
+            glTranslatef(0.0, 0.1, 0.0);
+            glRotatef(-(GLfloat)fingerUp3, 0.0, 0.0, 1.0);
+            glTranslatef(0.0, -0.1, 0.0);
+            glPushMatrix();
+                glScalef(0.05, 0.1, 0.05);
+                glutWireCube(0.5);
+            glPopMatrix();
+        glPopMatrix();
+    glPopMatrix();
+
+    // Right Arm
+    glPushMatrix();
+        glTranslatef(-1.4, 1.0, -0.1);
+        glTranslatef(0.0, 0.5, 0.0);
+        glRotatef(-(GLfloat)ar_1, 0.0, 0.0, 1.0);
+        glRotatef(-(GLfloat)ar_2, 0.0, 1.0, 0.0);
+        glTranslatef(0.0, -0.5, 0.0);
+        glPushMatrix();
+            glScalef(0.5, 1.0, 0.6);
+            glutWireCube(0.5);
+        glPopMatrix();
+        glTranslatef(0.0, -1.0, 0.0);
+        glTranslatef(0.0, 0.5, 0.0);
+        glRotatef((GLfloat)elbow, 1.0, 0.0, 0.0);
+        glTranslatef(0.0, -0.5, 0.0);
+        glPushMatrix();
+            glScalef(0.5, 1.0, 0.6);
+            glutWireCube(0.5);
+        glPopMatrix();
+        glPushMatrix();
+            glTranslatef(-0.2, -0.6, 0.0);
+            glTranslatef(0.0, 0.1, 0.0);
+            glRotatef((GLfloat)fingerBase4, 0.0, 0.0, 1.0);
+            glTranslatef(0.0, -0.1, 0.0);
+            glPushMatrix();
+                glScalef(0.1, 0.2, 0.1);
+                glutWireCube(0.5);
+            glPopMatrix();
+            glTranslatef(0.0, -0.2, 0.0);
+            glTranslatef(0.0, 0.1, 0.0);
+            glRotatef((GLfloat)fingerUp4, 0.0, 0.0, 1.0);
+            glTranslatef(0.0, -0.1, 0.0);
+            glPushMatrix();
+                glScalef(0.1, 0.2, 0.1);
+                glutWireCube(0.5);
+            glPopMatrix();
+        glPopMatrix();
+        glPushMatrix();
+            glTranslatef(-0.2, -0.6, 0.25);
+            glTranslatef(0.0, 0.1, 0.0);
+            glRotatef((GLfloat)fingerBase5, 0.0, 0.0, 1.0);
+            glTranslatef(0.0, -0.1, 0.0);
+            glPushMatrix();
+                glScalef(0.1, 0.2, 0.1);
+                glutWireCube(0.5);
+            glPopMatrix();
+            glTranslatef(0.0, -0.2, 0.0);
+            glTranslatef(0.0, 0.1, 0.0);
+            glRotatef((GLfloat)fingerUp5, 0.0, 0.0, 1.0);
+            glTranslatef(0.0, -0.1, 0.0);
+            glPushMatrix();
+                glScalef(0.1, 0.2, 0.1);
+                glutWireCube(0.5);
+            glPopMatrix();
+        glPopMatrix();
+        glPushMatrix();
+            glTranslatef(-0.2, -0.6, -0.25);
+            glTranslatef(0.0, 0.1, 0.0);
+            glRotatef((GLfloat)fingerBase6, 0.0, 0.0, 1.0);
+            glTranslatef(0.0, -0.1, 0.0);
+            glPushMatrix();
+                glScalef(0.1, 0.2, 0.1);
+                glutWireCube(0.5);
+            glPopMatrix();
+            glTranslatef(0.0, -0.2, 0.0);
+            glTranslatef(0.0, 0.1, 0.0);
+            glRotatef((GLfloat)fingerUp6, 0.0, 0.0, 1.0);
+            glTranslatef(0.0, -0.1, 0.0);
+            glPushMatrix();
+                glScalef(0.1, 0.2, 0.1);
+                glutWireCube(0.5);
+            glPopMatrix();
+        glPopMatrix();
+        glPushMatrix();
+            glTranslatef(0.2, -0.6, 0.0);
+            glTranslatef(0.0, 0.1, 0.0);
+            glRotatef(-(GLfloat)fingerBase7, 0.0, 0.0, 1.0);
+            glTranslatef(0.0, -0.1, 0.0);
+            glPushMatrix();
+                glScalef(0.1, 0.2, 0.1);
+                glutWireCube(0.5);
+            glPopMatrix();
+            glTranslatef(0.0, -0.2, 0.0);
+            glTranslatef(0.0, 0.1, 0.0);
+            glRotatef(-(GLfloat)fingerUp7, 0.0, 0.0, 1.0);
+            glTranslatef(0.0, -0.1, 0.0);
+            glPushMatrix();
+                glScalef(0.1, 0.2, 0.1);
+                glutWireCube(0.5);
+            glPopMatrix();
         glPopMatrix();
     glPopMatrix();
 
@@ -457,12 +551,7 @@ void display(void)
 	glutSwapBuffers();
 }
 
-<<<<<<< HEAD
 void Timer(int x) {
-=======
-void Timer(int x)
-{
->>>>>>> 2b975dc120ee956c72038147870904d9a0548a51
 	// Refresh and redraw
 	glutPostRedisplay();
 	glutTimerFunc(50, Timer, 0);
@@ -564,13 +653,12 @@ void Timer1(int x) {
     // Refresh and redraw
     VRot += 5;
     if (VRot == 360)
-        VRot=0;
+        VRot = 0;
     glutPostRedisplay();
     glutTimerFunc(50, Timer1, 0);
 }
 
 void DTimer1(int x) {
-
 	DRot -= 1;
 	if (DRot == 0)
 		return;
@@ -981,19 +1069,15 @@ int main (int argc, char** argv) {
 	initRendering();
 	glMatrixMode(GL_PROJECTION);
 	gluPerspective(60, aspect, 0.1, 10);
-<<<<<<< HEAD
-=======
-
->>>>>>> 2b975dc120ee956c72038147870904d9a0548a51
 	glutDisplayFunc(display);
 	glutSpecialFunc(specialKeys);
-	glutKeyboardFunc(Keyboard);
+    glutKeyboardFunc(Keyboard);
     glutMouseFunc(mouse);
     glutMotionFunc(motion);
 	Timer(0);
 	glutCreateMenu(screen_menu);
 	glutAddMenuEntry("Models", 0);
-	glutAddMenuEntry("", 0);
+	glutAddMenuEntry(" ", 0);
 	glutAddMenuEntry("Soccerball", '1');
 	glutAddMenuEntry("Al Capone", '2');
 	glutAddMenuEntry("F-16 Jet", '3');
