@@ -294,14 +294,14 @@ void display(void)
 
     // Object
     glPushMatrix();
-    	glTranslatef(-0.2, -0.015, 0.2);
-    	glRotatef(VRot, 0.0, 1.0, 0.0);
+    	glTranslatef(-0.2, -0.2, 0.2);
+//    	glRotatef(VRot, 0.0, 1.0, 0.0);
         glScalef(1.0, 1.0, 1.0);
     	drawmodel1();
 	glPopMatrix();
 
     // Chest
-    glTranslatef(0.0, 0.3, -0.6);
+    glTranslatef(0.0, 0.3, -1.0);
     glPushMatrix();
         glScalef(0.5, 0.75, 0.125);
         glutWireCube(0.5);
