@@ -20,20 +20,15 @@ double theta2 = -0.5;
 int moving, startx, starty;
 GLfloat angle = 0.0;
 GLfloat angle2 = 0.0;
-
 int windowWidth = 1024;
 int windowHeight = 768;
 float aspect = float(windowWidth) / float(windowHeight);
-
 float DRot = 90;
 float Zmax, Zmin;
 GLMmodel* pmodel;
 float VRot = 0.0;
-
-GLMmodel* pmodel1;
-GLMmodel* pmodel2 = glmReadOBJ("D:/Graphics-Project/finalproject/data/flowers.obj");
-GLMmodel* pmodel3 = glmReadOBJ("D:/Graphics-Project/finalproject/data/rose+vase.obj");
-GLMmodel* pmodel4 = glmReadOBJ("D:/Graphics-Project/finalproject/data/al.obj");
+float y_pos = 0.3;
+int state = 1;
 
 // RGBA
 GLfloat light_ambient[] = { 0.0, 0.0, 0.0, 0.0 };
@@ -82,13 +77,14 @@ GLuint loadTexture(Image* image) {
 }
 
 GLuint _textureId; //The id of the texture
-GLuint _textureId1; //The id of the texture
 
+void drawTexture() {
+    Image* image = loadBMP("D:/Graphics-Project/finalproject/textures/floor6.bmp");
+    _textureId = loadTexture(image);
+    delete image;
+}
 // Initializes 3D rendering
 void initRendering() {
-     	 Image* image = loadBMP("D:/Graphics-Project/finalproject/floor4.bmp");
-      	_textureId = loadTexture(image);
-      	delete image;
       	// Turn on the power
         glEnable(GL_LIGHTING);
         // Flip light switch
@@ -196,80 +192,75 @@ void moveBack() {
 }
 
 void screen_menu(int value) {
-	char* name = 0;
+    Image* image = 0;
 	switch (value) {
-	case '2':
-		name = "D:/Graphics-Project/finalproject/data/al.obj";
-		break;
 	case '1':
-		name = "D:/Graphics-Project/finalproject/data/soccerball.obj";
+	    image = loadBMP("D:/Graphics-Project/finalproject/textures/floor1.bmp");
+        _textureId = loadTexture(image);
+        delete image;
 		break;
-	case '4':
-		name = "D:/Graphics-Project/finalproject/data/dolphins.obj";
-		break;
-	case '5':
-		name = "D:/Graphics-Project/finalproject/data/flowers.obj";
+	case '2':
+	    image = loadBMP("D:/Graphics-Project/finalproject/textures/floor2.bmp");
+        _textureId = loadTexture(image);
+        delete image;
 		break;
 	case '3':
-		name = "D:/Graphics-Project/finalproject/data/f-16.obj";
+	    image = loadBMP("D:/Graphics-Project/finalproject/textures/floor3.bmp");
+        _textureId = loadTexture(image);
+        delete image;
+		break;
+	case '4':
+	    image = loadBMP("D:/Graphics-Project/finalproject/textures/floor4.bmp");
+        _textureId = loadTexture(image);
+        delete image;
+		break;
+	case '5':
+	    image = loadBMP("D:/Graphics-Project/finalproject/textures/floor5.bmp");
+        _textureId = loadTexture(image);
+        delete image;
 		break;
 	case '6':
-		name = "D:/Graphics-Project/finalproject/data/porsche.obj";
+	    image = loadBMP("D:/Graphics-Project/finalproject/textures/floor6.bmp");
+        _textureId = loadTexture(image);
+        delete image;
 		break;
-	case '7':
-		name = "D:/Graphics-Project/finalproject/data/rose+vase.obj";
-		break;
-	case '8':
-		name = "D:/Graphics-Project/finalproject/data/dragon-fixed.obj";
-		break;
-	}
-	if (name) {
-		pmodel = glmReadOBJ(name);
-		if (!pmodel) exit(0);
-		glmUnitize(pmodel);
-		glmFacetNormals(pmodel);
-		glmVertexNormals(pmodel, 90.0);
-		glmScale(pmodel, 0.15);
 	}
 	glutPostRedisplay();
 }
 
-void drawmodel1(void)
-{
-	if (!pmodel) {
-		pmodel = glmReadOBJ("D:/Graphics-Project/finalproject/data/desk.obj");
-		if (!pmodel) exit(0);
-		glmUnitize(pmodel);
-		glmFacetNormals(pmodel);
-		glmVertexNormals(pmodel, 90.0);
-		glmScale(pmodel, 0.15);
-	}
+void drawObject(void) {
+    pmodel = glmReadOBJ("D:/Graphics-Project/finalproject/objects/desk/desk.obj");
+    if (!pmodel) exit(0);
+    glmUnitize(pmodel);
+    glmFacetNormals(pmodel);
+    glmVertexNormals(pmodel, 90.0);
+    glmScale(pmodel, 0.15);
+	glmDraw(pmodel, GLM_SMOOTH | GLM_MATERIAL);
+}
+
+void drawObject1(void) {
+    pmodel = glmReadOBJ("D:/Graphics-Project/finalproject/objects/monitor/monitor.obj");
+    if (!pmodel) exit(0);
+    glmUnitize(pmodel);
+    glmFacetNormals(pmodel);
+    glmVertexNormals(pmodel, 90.0);
+    glmScale(pmodel, 0.15);
+	glmDraw(pmodel, GLM_SMOOTH | GLM_MATERIAL);
+}
+
+void drawObject2(void) {
+    pmodel = glmReadOBJ("D:/Graphics-Project/finalproject/objects/chair/Office_chair.obj");
+    if (!pmodel) exit(0);
+    glmUnitize(pmodel);
+    glmFacetNormals(pmodel);
+    glmVertexNormals(pmodel, 90.0);
+    glmScale(pmodel, 0.15);
 	glmDraw(pmodel, GLM_SMOOTH | GLM_MATERIAL);
 }
 
 GLuint startList;
 
-void display(void)
-{
-    glClearColor(0.0, 0.0, 0.0, 0.0);
-    // Clear Depth and Color buffers
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    gluLookAt(eye[0], eye[1], eye[2], center[0], center[1], center[2], up[0], up[1], up[2]);
-    glPushMatrix();
-        glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
-        glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-    glPopMatrix();
-
-    // Materials properties
-    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, mat_amb_diff);
-    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-    glMaterialfv(GL_FRONT, GL_SHININESS, shininess);
-
-    glPushMatrix();
-    glTranslatef(0, 0, -1);
-
+void drawAll() {
     // Floor
     glPushMatrix();
         glEnable(GL_TEXTURE_2D);
@@ -291,282 +282,346 @@ void display(void)
         glEnd();
         glDisable(GL_TEXTURE_2D);
     glPopMatrix();
-
-    // Object
+    // Objects
     glPushMatrix();
-    	glTranslatef(-0.2, -0.2, 0.2);
+    	glTranslatef(-0.3, -0.2, 0.2);
 //    	glRotatef(VRot, 0.0, 1.0, 0.0);
         glScalef(1.0, 1.0, 1.0);
-    	drawmodel1();
+    	drawObject();
 	glPopMatrix();
-
-    // Chest
-    glTranslatef(0.0, 0.3, -1.0);
     glPushMatrix();
-        glScalef(0.5, 0.75, 0.125);
-        glutWireCube(0.5);
+    	glTranslatef(-0.3, 0.0, 0.2);
+//    	glRotatef(VRot, 0.0, 1.0, 0.0);
+        glScalef(1.0, 1.0, 1.0);
+    	drawObject1();
+	glPopMatrix();
+    glPushMatrix();
+    	glTranslatef(0.3, -0.1, -0.5);
+//    	glRotatef(VRot, 0.0, 1.0, 0.0);
+        glScalef(1.0, 1.0, 1.0);
+    	drawObject2();
+	glPopMatrix();
+}
+
+void display(void)
+{
+    glClearColor(0.0, 0.0, 0.0, 0.0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    gluLookAt(eye[0], eye[1], eye[2], center[0], center[1], center[2], up[0], up[1], up[2]);
+    glPushMatrix();
+        glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
+        glLightfv(GL_LIGHT0, GL_POSITION, light_position);
     glPopMatrix();
 
-    // Header
-    glPushMatrix();
-        glTranslatef(0.0, 0.25, 0.0);
-        glPushMatrix();
-            glScalef(0.1, 0.1, 0.1);
-            glutWireSphere(0.5, 8.0, 8.0);
-        glPopMatrix();
-    glPopMatrix();
+    // Materials properties
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, mat_amb_diff);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, shininess);
 
-    // Right Leg, Right Leg Second Half and Solid Leg
     glPushMatrix();
-        glTranslatef(-0.1, -0.27, 0.0);
-        glTranslatef(0.0, 0.6, 0.0);
-        glRotatef((GLfloat)fi_half, 1.0, 0.0, 0.0);
-        glRotatef((GLfloat)hor1, 0.0, 0.0, 1.0);
-        glTranslatef(0.0, -0.6, 0.0);
+        glTranslatef(0.0, 0.0, -2.0);
+        drawAll();
+        // Chest
+        glTranslatef(0.0, y_pos, -1.0);
         glPushMatrix();
-            glScalef(0.1, 0.3, 0.1);
+            glScalef(0.5, 0.75, 0.125);
             glutWireCube(0.5);
         glPopMatrix();
-        glTranslatef(0.0, -0.15, 0.0);
-        glTranslatef(0.0, 0.8, 0.0);
-        glRotatef((GLfloat)fi_half1, 1.0, 0.0, 0.0);
-        glTranslatef(0.0, -0.8, 0.0);
+        // Header
         glPushMatrix();
-            glScalef(0.1, 0.3, 0.1);
-            glutWireCube(0.5);
-        glPopMatrix();
-        glTranslatef(0.0, -0.1, 0.0);
-        glPushMatrix();
-            glScalef(0.1, 0.1, 0.2);
-            glutSolidCube(0.5);
-        glPopMatrix();
-    glPopMatrix();
-
-    // Left Leg, Left Leg Second Half and Solid Leg
-    glPushMatrix();
-        glTranslatef(0.1, -0.27, 0.0);
-        glTranslatef(0.0, 0.6, 0.0);
-        glRotatef(-(GLfloat)fi_half3, 1.0, 0.0, 0.0);
-        glRotatef(-(GLfloat)hor2, 0.0, 0.0, 1.0);
-        glTranslatef(0.0, -0.6, 0.0);
-        glPushMatrix();
-            glScalef(0.1, 0.3, 0.1);
-            glutWireCube(0.5);
-        glPopMatrix();
-        glTranslatef(0.0, -0.15, 0.0);
-        glTranslatef(0.0, 0.8, 0.0);
-        glRotatef((GLfloat)fi_half2, 1.0, 0.0, 0.0);
-        glTranslatef(0.0, -0.8, 0.0);
-        glPushMatrix();
-            glScalef(0.1, 0.3, 0.1);
-            glutWireCube(0.5);
-        glPopMatrix();
-        glTranslatef(0.0, -0.1, 0.0);
-        glPushMatrix();
-            glScalef(0.1, 0.1, 0.2);
-            glutSolidCube(0.5);
-        glPopMatrix();
-    glPopMatrix();
-
-    // Left Arm
-    glPushMatrix();
-        glTranslatef(0.17, 0.1, 0.0);
-        glTranslatef(0.0, 0.5, 0.0);
-        glRotatef((GLfloat)ar_1, 0.0, 0.0, 1.0);
-        glRotatef((GLfloat)ar_2, 0.0, 1.0, 0.0);
-        glTranslatef(0.0, -0.5, 0.0);
-        glPushMatrix();
-            glScalef(0.125, 0.25, 0.15);
-            glutWireCube(0.5);
-        glPopMatrix();
-        glTranslatef(0.0, -0.125, 0.0);
-        glTranslatef(0.0, 0.5, 0.0);
-        glRotatef((GLfloat)elbow, 1.0, 0.0, 0.0);
-        glTranslatef(0.0, -0.5, 0.0);
-        glPushMatrix();
-            glScalef(0.125, 0.25, 0.15);
-            glutWireCube(0.5);
-        glPopMatrix();
-        glPushMatrix();
-            glTranslatef(-0.025, -0.075, 0.0);
-            glTranslatef(0.0, 0.1, 0.0);
-            glRotatef((GLfloat)fingerBase, 0.0, 0.0, 1.0);
-            glTranslatef(0.0, -0.1, 0.0);
+            glTranslatef(0.0, 0.25, 0.0);
             glPushMatrix();
-                glScalef(0.025, 0.05, 0.025);
-                glutWireCube(0.5);
+                glScalef(0.1, 0.1, 0.1);
+                glutWireSphere(0.5, 8.0, 8.0);
             glPopMatrix();
-            glTranslatef(0.0, -0.175, 0.0);
-            glTranslatef(0.0, 0.1, 0.0);
-            glRotatef((GLfloat)fingerUp, 0.0, 0.0, 1.0);
+        glPopMatrix();
+        // Right Leg, Right Leg Second Half and Solid Leg
+        glPushMatrix();
+            glTranslatef(-0.1, -0.27, 0.0);
             glTranslatef(0.0, 0.05, 0.0);
+            glRotatef((GLfloat)fi_half, 1.0, 0.0, 0.0);
+            glRotatef((GLfloat)hor1, 0.0, 0.0, 1.0);
+            glTranslatef(0.0, -0.05, 0.0);
             glPushMatrix();
-                glScalef(0.025, 0.05, 0.025);
+                glScalef(0.1, 0.3, 0.1);
                 glutWireCube(0.5);
             glPopMatrix();
+            glTranslatef(0.0, -0.15, 0.0);
+            glTranslatef(0.0, 0.05, 0.0);
+            glRotatef((GLfloat)fi_half1, 1.0, 0.0, 0.0);
+            glTranslatef(0.0, -0.05, 0.0);
+            glPushMatrix();
+                glScalef(0.1, 0.3, 0.1);
+                glutWireCube(0.5);
+            glPopMatrix();
+            glTranslatef(0.0, -0.1, 0.0);
+            glPushMatrix();
+                glScalef(0.1, 0.1, 0.2);
+                glutSolidCube(0.5);
+            glPopMatrix();
         glPopMatrix();
+        // Left Leg, Left Leg Second Half and Solid Leg
         glPushMatrix();
-            glTranslatef(0.025, -0.075, 0.0);
-            glTranslatef(0.0, 0.1, 0.0);
-            glRotatef(-(GLfloat)fingerBase1, 0.0, 0.0, 1.0);
-            glTranslatef(0.0, -0.1, 0.0);
+            glTranslatef(0.1, -0.27, 0.0);
+            glTranslatef(0.0, 0.05, 0.0);
+            glRotatef(-(GLfloat)fi_half3, 1.0, 0.0, 0.0);
+            glRotatef(-(GLfloat)hor2, 0.0, 0.0, 1.0);
+            glTranslatef(0.0, -0.05, 0.0);
             glPushMatrix();
-                glScalef(0.025, 0.05, 0.025);
+                glScalef(0.1, 0.3, 0.1);
                 glutWireCube(0.5);
             glPopMatrix();
-            glTranslatef(0.0, -0.025, 0.0);
-            glTranslatef(0.0, 0.1, 0.0);
-            glRotatef(-(GLfloat)fingerUp1, 0.0, 0.0, 1.0);
+            glTranslatef(0.0, -0.15, 0.0);
+            glTranslatef(0.0, 0.05, 0.0);
+            glRotatef((GLfloat)fi_half2, 1.0, 0.0, 0.0);
+            glTranslatef(0.0, -0.05, 0.0);
+            glPushMatrix();
+                glScalef(0.1, 0.3, 0.1);
+                glutWireCube(0.5);
+            glPopMatrix();
             glTranslatef(0.0, -0.1, 0.0);
             glPushMatrix();
-                glScalef(0.025, 0.05, 0.025);
-                glutWireCube(0.5);
+                glScalef(0.1, 0.1, 0.2);
+                glutSolidCube(0.5);
             glPopMatrix();
         glPopMatrix();
+        // Left Arm
         glPushMatrix();
-            glTranslatef(0.025, -0.075, 0.025);
-            glTranslatef(0.0, 0.1, 0.0);
-            glRotatef(-(GLfloat)fingerBase2, 0.0, 0.0, 1.0);
-            glTranslatef(0.0, -0.1, 0.0);
+            glTranslatef(0.17, 0.1, 0.0);
+            glTranslatef(0.0, 0.05, 0.0);
+            glRotatef((GLfloat)ar_1, 0.0, 0.0, 1.0);
+            glRotatef((GLfloat)ar_2, 0.0, 1.0, 0.0);
+            glTranslatef(0.0, -0.05, 0.0);
             glPushMatrix();
-                glScalef(0.025, 0.05, 0.025);
+                glScalef(0.125, 0.25, 0.15);
                 glutWireCube(0.5);
             glPopMatrix();
-            glTranslatef(0.0, -0.025, 0.0);
-            glTranslatef(0.0, 0.1, 0.0);
-            glRotatef(-(GLfloat)fingerUp2, 0.0, 0.0, 1.0);
-            glTranslatef(0.0, -0.1, 0.0);
+            glTranslatef(0.0, -0.125, 0.0);
+            glTranslatef(0.0, 0.05, 0.0);
+            glRotatef((GLfloat)elbow, 1.0, 0.0, 0.0);
+            glTranslatef(0.0, -0.05, 0.0);
             glPushMatrix();
-                glScalef(0.025, 0.05, 0.025);
+                glScalef(0.125, 0.25, 0.15);
                 glutWireCube(0.5);
+            glPopMatrix();
+            glPushMatrix();
+                glTranslatef(-0.025, -0.075, 0.0);
+                glTranslatef(0.0, 0.1, 0.0);
+                glRotatef((GLfloat)fingerBase, 0.0, 0.0, 1.0);
+                glTranslatef(0.0, -0.1, 0.0);
+                glPushMatrix();
+                    glScalef(0.025, 0.05, 0.025);
+                    glutWireCube(0.5);
+                glPopMatrix();
+                glTranslatef(0.0, -0.175, 0.0);
+                glTranslatef(0.0, 0.1, 0.0);
+                glRotatef((GLfloat)fingerUp, 0.0, 0.0, 1.0);
+                glTranslatef(0.0, 0.05, 0.0);
+                glPushMatrix();
+                    glScalef(0.025, 0.05, 0.025);
+                    glutWireCube(0.5);
+                glPopMatrix();
+            glPopMatrix();
+            glPushMatrix();
+                glTranslatef(0.025, -0.075, 0.0);
+                glTranslatef(0.0, 0.1, 0.0);
+                glRotatef(-(GLfloat)fingerBase1, 0.0, 0.0, 1.0);
+                glTranslatef(0.0, -0.1, 0.0);
+                glPushMatrix();
+                    glScalef(0.025, 0.05, 0.025);
+                    glutWireCube(0.5);
+                glPopMatrix();
+                glTranslatef(0.0, -0.025, 0.0);
+                glTranslatef(0.0, 0.1, 0.0);
+                glRotatef(-(GLfloat)fingerUp1, 0.0, 0.0, 1.0);
+                glTranslatef(0.0, -0.1, 0.0);
+                glPushMatrix();
+                    glScalef(0.025, 0.05, 0.025);
+                    glutWireCube(0.5);
+                glPopMatrix();
+            glPopMatrix();
+            glPushMatrix();
+                glTranslatef(0.025, -0.075, 0.025);
+                glTranslatef(0.0, 0.1, 0.0);
+                glRotatef(-(GLfloat)fingerBase2, 0.0, 0.0, 1.0);
+                glTranslatef(0.0, -0.1, 0.0);
+                glPushMatrix();
+                    glScalef(0.025, 0.05, 0.025);
+                    glutWireCube(0.5);
+                glPopMatrix();
+                glTranslatef(0.0, -0.025, 0.0);
+                glTranslatef(0.0, 0.1, 0.0);
+                glRotatef(-(GLfloat)fingerUp2, 0.0, 0.0, 1.0);
+                glTranslatef(0.0, -0.1, 0.0);
+                glPushMatrix();
+                    glScalef(0.025, 0.05, 0.025);
+                    glutWireCube(0.5);
+                glPopMatrix();
+            glPopMatrix();
+            glPushMatrix();
+                glTranslatef(0.025, -0.075, -0.025);
+                glTranslatef(0.0, 0.1, 0.0);
+                glRotatef(-(GLfloat)fingerBase3, 0.0, 0.0, 1.0);
+                glTranslatef(0.0, -0.1, 0.0);
+                glPushMatrix();
+                    glScalef(0.025, 0.05, 0.025);
+                    glutWireCube(0.5);
+                glPopMatrix();
+                glTranslatef(0.0, -0.025, 0.0);
+                glTranslatef(0.0, 0.1, 0.0);
+                glRotatef(-(GLfloat)fingerUp3, 0.0, 0.0, 1.0);
+                glTranslatef(0.0, -0.1, 0.0);
+                glPushMatrix();
+                    glScalef(0.025, 0.05, 0.025);
+                    glutWireCube(0.5);
+                glPopMatrix();
             glPopMatrix();
         glPopMatrix();
+        // Right Arm
         glPushMatrix();
-            glTranslatef(0.025, -0.075, -0.025);
-            glTranslatef(0.0, 0.1, 0.0);
-            glRotatef(-(GLfloat)fingerBase3, 0.0, 0.0, 1.0);
-            glTranslatef(0.0, -0.1, 0.0);
+            glTranslatef(-0.17, 0.1, 0.0);
+            glTranslatef(0.0, 0.05, 0.0);
+            glRotatef(-(GLfloat)ar_1, 0.0, 0.0, 1.0);
+            glRotatef(-(GLfloat)ar_2, 0.0, 1.0, 0.0);
+            glTranslatef(0.0, -0.05, 0.0);
             glPushMatrix();
-                glScalef(0.025, 0.05, 0.025);
+                glScalef(0.125, 0.25, 0.15);
                 glutWireCube(0.5);
             glPopMatrix();
-            glTranslatef(0.0, -0.025, 0.0);
-            glTranslatef(0.0, 0.1, 0.0);
-            glRotatef(-(GLfloat)fingerUp3, 0.0, 0.0, 1.0);
-            glTranslatef(0.0, -0.1, 0.0);
+            glTranslatef(0.0, -0.125, 0.0);
+            glTranslatef(0.0, 0.05, 0.0);
+            glRotatef((GLfloat)elbow, 1.0, 0.0, 0.0);
+            glTranslatef(0.0, -0.05, 0.0);
             glPushMatrix();
-                glScalef(0.025, 0.05, 0.025);
+                glScalef(0.125, 0.25, 0.15);
                 glutWireCube(0.5);
             glPopMatrix();
-        glPopMatrix();
-    glPopMatrix();
-
-    // Right Arm
-    glPushMatrix();
-        glTranslatef(-0.17, 0.1, 0.0);
-        glTranslatef(0.0, 0.5, 0.0);
-        glRotatef(-(GLfloat)ar_1, 0.0, 0.0, 1.0);
-        glRotatef(-(GLfloat)ar_2, 0.0, 1.0, 0.0);
-        glTranslatef(0.0, -0.5, 0.0);
-        glPushMatrix();
-            glScalef(0.125, 0.25, 0.15);
-            glutWireCube(0.5);
-        glPopMatrix();
-        glTranslatef(0.0, -0.125, 0.0);
-        glTranslatef(0.0, 0.5, 0.0);
-        glRotatef((GLfloat)elbow, 1.0, 0.0, 0.0);
-        glTranslatef(0.0, -0.5, 0.0);
-        glPushMatrix();
-            glScalef(0.125, 0.25, 0.15);
-            glutWireCube(0.5);
-        glPopMatrix();
-        glPushMatrix();
-            glTranslatef(0.025, -0.075, 0.0);
-            glTranslatef(0.0, 0.1, 0.0);
-            glRotatef((GLfloat)fingerBase4, 0.0, 0.0, 1.0);
-            glTranslatef(0.0, -0.1, 0.0);
             glPushMatrix();
-                glScalef(0.025, 0.05, 0.025);
-                glutWireCube(0.5);
+                glTranslatef(0.025, -0.075, 0.0);
+                glTranslatef(0.0, 0.1, 0.0);
+                glRotatef((GLfloat)fingerBase4, 0.0, 0.0, 1.0);
+                glTranslatef(0.0, -0.1, 0.0);
+                glPushMatrix();
+                    glScalef(0.025, 0.05, 0.025);
+                    glutWireCube(0.5);
+                glPopMatrix();
+                glTranslatef(0.0, -0.025, 0.0);
+                glTranslatef(0.0, 0.1, 0.0);
+                glRotatef((GLfloat)fingerUp4, 0.0, 0.0, 1.0);
+                glTranslatef(0.0, -0.1, 0.0);
+                glPushMatrix();
+                    glScalef(0.025, 0.05, 0.025);
+                    glutWireCube(0.5);
+                glPopMatrix();
             glPopMatrix();
-            glTranslatef(0.0, -0.025, 0.0);
-            glTranslatef(0.0, 0.1, 0.0);
-            glRotatef((GLfloat)fingerUp4, 0.0, 0.0, 1.0);
-            glTranslatef(0.0, -0.1, 0.0);
             glPushMatrix();
-                glScalef(0.025, 0.05, 0.025);
-                glutWireCube(0.5);
+                glTranslatef(-0.025, -0.075, 0.0);
+                glTranslatef(0.0, 0.1, 0.0);
+                glRotatef((GLfloat)fingerBase5, 0.0, 0.0, 1.0);
+                glTranslatef(0.0, -0.1, 0.0);
+                glPushMatrix();
+                    glScalef(0.025, 0.05, 0.025);
+                    glutWireCube(0.5);
+                glPopMatrix();
+                glTranslatef(0.0, -0.025, 0.0);
+                glTranslatef(0.0, 0.1, 0.0);
+                glRotatef((GLfloat)fingerUp5, 0.0, 0.0, 1.0);
+                glTranslatef(0.0, -0.1, 0.0);
+                glPushMatrix();
+                    glScalef(0.025, 0.05, 0.025);
+                    glutWireCube(0.5);
+                glPopMatrix();
             glPopMatrix();
-        glPopMatrix();
-        glPushMatrix();
-            glTranslatef(-0.025, -0.075, 0.0);
-            glTranslatef(0.0, 0.1, 0.0);
-            glRotatef((GLfloat)fingerBase5, 0.0, 0.0, 1.0);
-            glTranslatef(0.0, -0.1, 0.0);
             glPushMatrix();
-                glScalef(0.025, 0.05, 0.025);
-                glutWireCube(0.5);
+                glTranslatef(-0.025, -0.075, 0.025);
+                glTranslatef(0.0, 0.1, 0.0);
+                glRotatef((GLfloat)fingerBase6, 0.0, 0.0, 1.0);
+                glTranslatef(0.0, -0.1, 0.0);
+                glPushMatrix();
+                    glScalef(0.025, 0.05, 0.025);
+                    glutWireCube(0.5);
+                glPopMatrix();
+                glTranslatef(0.0, -0.025, 0.0);
+                glTranslatef(0.0, 0.1, 0.0);
+                glRotatef((GLfloat)fingerUp6, 0.0, 0.0, 1.0);
+                glTranslatef(0.0, -0.1, 0.0);
+                glPushMatrix();
+                    glScalef(0.025, 0.05, 0.025);
+                    glutWireCube(0.5);
+                glPopMatrix();
             glPopMatrix();
-            glTranslatef(0.0, -0.025, 0.0);
-            glTranslatef(0.0, 0.1, 0.0);
-            glRotatef((GLfloat)fingerUp5, 0.0, 0.0, 1.0);
-            glTranslatef(0.0, -0.1, 0.0);
             glPushMatrix();
-                glScalef(0.025, 0.05, 0.025);
-                glutWireCube(0.5);
-            glPopMatrix();
-        glPopMatrix();
-        glPushMatrix();
-            glTranslatef(-0.025, -0.075, 0.025);
-            glTranslatef(0.0, 0.1, 0.0);
-            glRotatef((GLfloat)fingerBase6, 0.0, 0.0, 1.0);
-            glTranslatef(0.0, -0.1, 0.0);
-            glPushMatrix();
-                glScalef(0.025, 0.05, 0.025);
-                glutWireCube(0.5);
-            glPopMatrix();
-            glTranslatef(0.0, -0.025, 0.0);
-            glTranslatef(0.0, 0.1, 0.0);
-            glRotatef((GLfloat)fingerUp6, 0.0, 0.0, 1.0);
-            glTranslatef(0.0, -0.1, 0.0);
-            glPushMatrix();
-                glScalef(0.025, 0.05, 0.025);
-                glutWireCube(0.5);
+                glTranslatef(-0.025, -0.075, -0.025);
+                glTranslatef(0.0, 0.1, 0.0);
+                glRotatef(-(GLfloat)fingerBase7, 0.0, 0.0, 1.0);
+                glTranslatef(0.0, -0.1, 0.0);
+                glPushMatrix();
+                    glScalef(0.025, 0.05, 0.025);
+                    glutWireCube(0.5);
+                glPopMatrix();
+                glTranslatef(0.0, -0.025, 0.0);
+                glTranslatef(0.0, 0.1, 0.0);
+                glRotatef(-(GLfloat)fingerUp7, 0.0, 0.0, 1.0);
+                glTranslatef(0.0, -0.1, 0.0);
+                glPushMatrix();
+                    glScalef(0.025, 0.05, 0.025);
+                    glutWireCube(0.5);
+                glPopMatrix();
             glPopMatrix();
         glPopMatrix();
-        glPushMatrix();
-            glTranslatef(-0.025, -0.075, -0.025);
-            glTranslatef(0.0, 0.1, 0.0);
-            glRotatef(-(GLfloat)fingerBase7, 0.0, 0.0, 1.0);
-            glTranslatef(0.0, -0.1, 0.0);
-            glPushMatrix();
-                glScalef(0.025, 0.05, 0.025);
-                glutWireCube(0.5);
-            glPopMatrix();
-            glTranslatef(0.0, -0.025, 0.0);
-            glTranslatef(0.0, 0.1, 0.0);
-            glRotatef(-(GLfloat)fingerUp7, 0.0, 0.0, 1.0);
-            glTranslatef(0.0, -0.1, 0.0);
-            glPushMatrix();
-                glScalef(0.025, 0.05, 0.025);
-                glutWireCube(0.5);
-            glPopMatrix();
-        glPopMatrix();
-    glPopMatrix();
-
 	glPopMatrix();
 	glutSwapBuffers();
 }
 
 void Timer(int x) {
-	// Refresh and redraw
 	glutPostRedisplay();
-	glutTimerFunc(50, Timer, 0);
+	glutTimerFunc(1000/5, Timer, 0);
+	switch (state) {
+    case 1:
+        if (fi_half3 <= 45 && fi_half <= 45)
+        {
+            fi_half3 = (fi_half3 + 5) % 360;
+            fi_half = (fi_half + 5) % 360;
+        }
+        else
+            state = -1;
+        break;
+    case -1:
+        if (fi_half3 >= -55 && fi_half >= -55)
+        {
+            fi_half3 = (fi_half3 - 5) % 360;
+            fi_half = (fi_half - 5) % 360;
+        }
+        else
+            state = 1;
+        break;
+	}
+//	switch (state) {
+//    case 1:
+//        if (y_pos <= 0.6)
+//        {
+//            y_pos += 0.05;
+//            ar_1 = (ar_1 + 5) % 360;
+//        }
+//        else
+//            state = -1;
+//        break;
+//    case -1:
+//        if (y_pos > 0.35)
+//        {
+//            y_pos -= 0.05;
+//            ar_1 = (ar_1 - 5) % 360;
+//        }
+//        else
+//            state = 1;
+//        break;
+//	}
 }
 
 void specialKeys(int key, int x, int y) {
-	switch (key)
-	{
+	switch (key) {
 	case GLUT_KEY_LEFT: turnLeft(); break;
 	case GLUT_KEY_RIGHT: turnRight(); break;
 	case GLUT_KEY_UP:
@@ -580,8 +635,7 @@ void specialKeys(int key, int x, int y) {
 	}
 }
 
-static void mouse(int button, int state, int x, int y)
-{
+static void mouse(int button, int state, int x, int y) {
   if (button == GLUT_LEFT_BUTTON) {
     if (state == GLUT_DOWN) {
       moving = 1;
@@ -656,14 +710,14 @@ void SetBound() {
 	}
 }
 
-void Timer1(int x) {
-    // Refresh and redraw
-    VRot += 5;
-    if (VRot == 360)
-        VRot = 0;
-    glutPostRedisplay();
-    glutTimerFunc(50, Timer1, 0);
-}
+//void Timer1(int x) {
+//    // Refresh and redraw
+//    VRot += 5;
+//    if (VRot == 360)
+//        VRot = 0;
+//    glutPostRedisplay();
+//    glutTimerFunc(50, Timer1, 0);
+//}
 
 void DTimer1(int x) {
 	DRot -= 1;
@@ -703,121 +757,87 @@ void Keyboard(unsigned char Key, int x, int y) {
 		break;
     case 's':
       if(fi_half2 <= 90)
-      {
           fi_half2 = (fi_half2 + 5) % 360;
-      }
       glutPostRedisplay();
       break;
    case 'S':
       if(fi_half2 >= 0)
-      {
           fi_half2 = (fi_half2 - 5) % 360;
-      }
       glutPostRedisplay();
       break;
    case 'a':
         if(fi_half1 <= 90)
-        {
             fi_half1 = (fi_half1 + 5) % 360;
-        }
         glutPostRedisplay();
         break;
    case 'A':
         if(fi_half1 >= 0)
-        {
             fi_half1 = (fi_half1 - 5) % 360;
-        }
         glutPostRedisplay();
         break;
    case 'e':
        if (elbow <= 110)
-       {
            elbow = (elbow + 5) % 360;
-       }
        glutPostRedisplay();
         break;
    case 'E':
        if (elbow >= -110)
-       {
            elbow = (elbow - 5) % 360;
-       }
        glutPostRedisplay();
        break;
    case 'h':
        if(hor1 <= 0)
-       {
            hor1 = (hor1 + 5) % 360;
-       }
        glutPostRedisplay();
        break;
    case 'H':
         if(hor1 >= -90)
-        {
             hor1 = (hor1 - 5) % 360;
-        }
         glutPostRedisplay();
         break;
    case 'g':
         if(hor2 <= 0)
-        {
             hor2 = (hor2 + 5) % 360;
-        }
         glutPostRedisplay();
         break;
    case 'G':
         if(hor2 >= -90)
-        {
             hor2 = (hor2 - 5) % 360;
-        }
         glutPostRedisplay();
         break;
    case 'l':
         if (fi_half <= 45)
-        {
             fi_half = (fi_half + 5) % 360;
-        }
         glutPostRedisplay();
         break;
    case 'L':
         if(fi_half >= -55)
-        {
             fi_half = (fi_half - 5) % 360;
-        }
         glutPostRedisplay();
         break;
    case 'z':
         if(fi_half3 <= 45)
-        {
             fi_half3 = (fi_half3 + 5) % 360;
-        }
         glutPostRedisplay();
         break;
    case 'Z':
         if(fi_half3 >= -55)
-        {
             fi_half3 = (fi_half3 - 5) % 360;
-        }
         glutPostRedisplay();
         break;
    case 'm':
         if(ar_1 <= 110)
-        {
             ar_1 = (ar_1 + 5) % 360;
-        }
         glutPostRedisplay();
         break;
    case 'M':
         if(ar_1 >= 5)
-        {
             ar_1 = (ar_1 - 5) % 360;
-        }
         glutPostRedisplay();
         break;
    case 'd':
         if (ar_2 <= 85)
-        {
             ar_2 = (ar_2 + 5) % 360;
-        }
         glutPostRedisplay();
         break;
    case 'D':
@@ -829,210 +849,152 @@ void Keyboard(unsigned char Key, int x, int y) {
         break;
 //   case 'f':
 //       if (fingerBase <= 70)
-//       {
 //            fingerBase = (fingerBase + 5) % 360;
-//       }
 //       glutPostRedisplay();
 //       break;
 //   case 'F':
 //       if (fingerBase >= 0)
-//       {
 //            fingerBase = (fingerBase - 5) % 360;
-//       }
 //       glutPostRedisplay();
 //       break;
     case 'q':
        if (fingerBase1 <= 70)
-       {
             fingerBase1 = (fingerBase1 + 5) % 360;
-       }
        glutPostRedisplay();
        break;
     case 'Q':
        if (fingerBase1 >= 0)
-       {
             fingerBase1 = (fingerBase1 - 5) % 360;
-       }
        glutPostRedisplay();
        break;
     case 'r':
        if (fingerBase2 <= 70)
-       {
             fingerBase2 = (fingerBase2 + 5) % 360;
-       }
        glutPostRedisplay();
        break;
     case 'R':
        if (fingerBase2 >= 0)
-       {
             fingerBase2 = (fingerBase2 - 5) % 360;
-       }
        glutPostRedisplay();
        break;
     case 't':
        if (fingerBase3 <= 70)
-       {
             fingerBase3 = (fingerBase3 + 5) % 360;
-       }
        glutPostRedisplay();
        break;
     case 'T':
-       if (fingerBase3 >= 0){
+       if (fingerBase3 >= 0)
             fingerBase3 = (fingerBase3 - 5) % 360;
-       }
        glutPostRedisplay();
        break;
     case 'y':
        if (fingerBase4 <= 70)
-       {
             fingerBase4 = (fingerBase4 + 5) % 360;
-       }
        glutPostRedisplay();
        break;
     case 'Y':
        if (fingerBase4 >= 0)
-       {
             fingerBase4 = (fingerBase4 - 5) % 360;
-       }
        glutPostRedisplay();
        break;
     case 'u':
        if (fingerBase5 <= 70)
-       {
             fingerBase5 = (fingerBase5 + 5) % 360;
-       }
        glutPostRedisplay();
        break;
     case 'U':
-       if (fingerBase5 >= 0){
+       if (fingerBase5 >= 0)
             fingerBase5 = (fingerBase5 - 5) % 360;
-       }
        glutPostRedisplay();
        break;
     case 'i':
        if (fingerBase6 <= 70)
-       {
             fingerBase6 = (fingerBase6 + 5) % 360;
-       }
        glutPostRedisplay();
        break;
     case 'I':
        if (fingerBase6 >= 0)
-       {
             fingerBase6 = (fingerBase6 - 5) % 360;
-       }
        glutPostRedisplay();
        break;
     case 'o':
        if (fingerBase7 <= 70)
-       {
             fingerBase7 = (fingerBase7 + 5) % 360;
-       }
        glutPostRedisplay();
        break;
     case 'O':
        if (fingerBase7 >= 0)
-       {
             fingerBase7 = (fingerBase7 - 5) % 360;
-       }
        glutPostRedisplay();
        break;
     case 'w':
           if (fingerUp <= 90)
-          {
               fingerUp = (fingerUp + 5) % 360;
-          }
         glutPostRedisplay();
         break;
    case 'W':
        if (fingerUp >= 0)
-       {
            fingerUp = (fingerUp - 5) % 360;
-       }
         glutPostRedisplay();
         break;
     case 'p':
           if (fingerUp1 <= 90)
-          {
               fingerUp1 = (fingerUp1 + 5) % 360;
-          }
         glutPostRedisplay();
         break;
    case 'P':
        if (fingerUp1 >= 0)
-       {
            fingerUp1 = (fingerUp1 - 5) % 360;
-       }
         glutPostRedisplay();
         break;
     case 'j':
           if (fingerUp2 <= 90)
-          {
               fingerUp2 = (fingerUp2 + 5) % 360;
-          }
         glutPostRedisplay();
         break;
    case 'J':
        if (fingerUp2 >= 0)
-       {
            fingerUp2 = (fingerUp2 - 5) % 360;
-       }
         glutPostRedisplay();
         break;
     case 'k':
           if (fingerUp3 <= 90)
-          {
               fingerUp3 = (fingerUp3 + 5) % 360;
-          }
         glutPostRedisplay();
         break;
    case 'K':
        if (fingerUp3 >= 0)
-       {
            fingerUp3 = (fingerUp3 - 5) % 360;
-       }
         glutPostRedisplay();
         break;
     case 'x':
           if (fingerUp4 <= 90)
-          {
               fingerUp4 = (fingerUp4 + 5) % 360;
-          }
         glutPostRedisplay();
         break;
    case 'X':
        if (fingerUp4 >= 0)
-       {
            fingerUp4 = (fingerUp4 - 5) % 360;
-       }
         glutPostRedisplay();
         break;
     case 'c':
           if (fingerUp5 <= 90)
-          {
               fingerUp5 = (fingerUp5 + 5) % 360;
-          }
         glutPostRedisplay();
         break;
    case 'C':
        if (fingerUp5 >= 0)
-       {
            fingerUp5 = (fingerUp5 - 5) % 360;
-       }
         glutPostRedisplay();
         break;
     case 'v':
           if (fingerUp6 <= 90)
-          {
               fingerUp6 = (fingerUp6 + 5) % 360;
-          }
         glutPostRedisplay();
         break;
    case 'V':
        if (fingerUp6 >= 0)
-       {
            fingerUp6 = (fingerUp6 - 5) % 360;
-       }
         glutPostRedisplay();
         break;
 //	case 'b':
@@ -1073,6 +1035,7 @@ int main (int argc, char** argv) {
 	glutInitWindowSize(windowWidth, windowHeight);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutCreateWindow("ROOM");
+	drawTexture();
 	initRendering();
 	glMatrixMode(GL_PROJECTION);
 	gluPerspective(60, aspect, 0.1, 10);
@@ -1083,18 +1046,16 @@ int main (int argc, char** argv) {
     glutMotionFunc(motion);
 	Timer(0);
 	glutCreateMenu(screen_menu);
-	glutAddMenuEntry("Models", 0);
+	glutAddMenuEntry("Texture Models", 0);
 	glutAddMenuEntry(" ", 0);
-	glutAddMenuEntry("Soccerball", '1');
-	glutAddMenuEntry("Al Capone", '2');
-	glutAddMenuEntry("F-16 Jet", '3');
-	glutAddMenuEntry("Dolphins", '4');
-	glutAddMenuEntry("Flowers", '5');
-	glutAddMenuEntry("Porsche", '6');
-	glutAddMenuEntry("Rose", '7');
-	glutAddMenuEntry("Dragon", '8');
+	glutAddMenuEntry("Floor1", '1');
+	glutAddMenuEntry("Floor2", '2');
+	glutAddMenuEntry("Floor3", '3');
+	glutAddMenuEntry("Floor4", '4');
+	glutAddMenuEntry("Floor5", '5');
+	glutAddMenuEntry("Original", '6');
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
-	glutTimerFunc(0, Timer1, 0);
+	glutTimerFunc(0, Timer, 0);
 	glutMainLoop();
 	return 0;
 }
