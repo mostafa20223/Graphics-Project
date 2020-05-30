@@ -9,7 +9,7 @@ static int hor2 = 0, hor1 = 0, chest = 0, fi_half = 0, se_half = 0, fi_half2 = 0
 static int fingerBase2 = 0, fingerBase3 = 0, fingerBase4 = 0, fingerBase5 = 0, fingerBase6 = 0, fingerBase7 = 0, fingerBase8 = 0;
 static int fingerUp3 = 0, fingerUp4 = 0, fingerUp5 = 0, fingerUp6 = 0, fingerUp7 = 0, fingerUp8 = 0;
 static int shoulder = 0, shoulder2 = 0;
-double eye[] = { 0, 0, 0 };
+double eye[] = { 0, 0, 1 };
 double center[] = { 0, 0, -1 };
 double up[] = { 0, 1, 0 };
 double direction[] = { 0, 0, 0 };
@@ -284,27 +284,26 @@ void drawAll() {
     glPopMatrix();
     // Objects
     glPushMatrix();
-    	glTranslatef(-0.3, -0.2, 0.2);
-//    	glRotatef(VRot, 0.0, 1.0, 0.0);
-        glScalef(1.0, 1.0, 1.0);
+    	glTranslatef(-0.3, -0.15, -1.0);
+    	glRotatef(-180, 0.0, 1.0, 0.0);
+        glScalef(1.5, 1.5, 1.5);
     	drawObject();
 	glPopMatrix();
     glPushMatrix();
-    	glTranslatef(-0.3, 0.0, 0.2);
-//    	glRotatef(VRot, 0.0, 1.0, 0.0);
-        glScalef(1.0, 1.0, 1.0);
+    	glTranslatef(-0.25, 0.15, -1.0);
+    	glRotatef(-360, 0.0, 1.0, 0.0);
+        glScalef(1.5, 1.5, 1.5);
     	drawObject1();
 	glPopMatrix();
     glPushMatrix();
-    	glTranslatef(0.3, -0.1, -0.5);
-//    	glRotatef(VRot, 0.0, 1.0, 0.0);
-        glScalef(1.0, 1.0, 1.0);
+    	glTranslatef(0.3, 0.0, 1.25);
+    	glRotatef(180, 0.0, 1.0, 0.0);
+        glScalef(2.0, 2.0, 2.0);
     	drawObject2();
 	glPopMatrix();
 }
 
-void display(void)
-{
+void display(void) {
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
@@ -314,17 +313,15 @@ void display(void)
         glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
         glLightfv(GL_LIGHT0, GL_POSITION, light_position);
     glPopMatrix();
-
-    // Materials properties
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, mat_amb_diff);
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, shininess);
 
     glPushMatrix();
-        glTranslatef(0.0, 0.0, -2.0);
+        glTranslatef(0.0, 0.0, -1.0);
         drawAll();
         // Chest
-        glTranslatef(0.0, y_pos, -1.0);
+        glTranslatef(0.0, y_pos, 0.25);
         glPushMatrix();
             glScalef(0.5, 0.75, 0.125);
             glutWireCube(0.5);
@@ -577,13 +574,16 @@ void display(void)
 
 void Timer(int x) {
 	glutPostRedisplay();
-	glutTimerFunc(1000/5, Timer, 0);
+	glutTimerFunc(1000/60, Timer, 0);
 	switch (state) {
     case 1:
         if (fi_half3 <= 45 && fi_half <= 45)
         {
-            fi_half3 = (fi_half3 + 5) % 360;
-            fi_half = (fi_half + 5) % 360;
+            ar_1 = 50.0;
+            ar_2 = 45.0;
+            elbow = 100.0;
+            fi_half3 = (fi_half3 + 8) % 360;
+            fi_half = (fi_half + 8) % 360;
         }
         else
             state = -1;
@@ -591,33 +591,46 @@ void Timer(int x) {
     case -1:
         if (fi_half3 >= -55 && fi_half >= -55)
         {
-            fi_half3 = (fi_half3 - 5) % 360;
-            fi_half = (fi_half - 5) % 360;
+            ar_1 = 50.0;
+            ar_2 = 45.0;
+            elbow = 100.0;
+            fi_half3 = (fi_half3 - 8) % 360;
+            fi_half = (fi_half - 8) % 360;
         }
         else
-            state = 1;
+            state = 0;
+        break;
+	case 0:
+        ar_1 = 0.0;
+        ar_2 = 0.0;
+        elbow = 0.0;
+        fi_half = 0.0;
+        fi_half3 = 0.0;
+        state = 2;
+        break;
+    case 2:
+        if (y_pos <= 0.6)
+        {
+            y_pos += 0.05;
+            ar_1 = (ar_1 + 5) % 360;
+        }
+        else
+            state = -2;
+        break;
+    case -2:
+        if (y_pos > 0.35)
+        {
+            y_pos -= 0.05;
+            ar_1 = (ar_1 - 5) % 360;
+        }
+        else
+            state = 3;
+        break;
+    case 3:
+        y_pos = 0.3;
+        ar_1 = 0.0;
         break;
 	}
-//	switch (state) {
-//    case 1:
-//        if (y_pos <= 0.6)
-//        {
-//            y_pos += 0.05;
-//            ar_1 = (ar_1 + 5) % 360;
-//        }
-//        else
-//            state = -1;
-//        break;
-//    case -1:
-//        if (y_pos > 0.35)
-//        {
-//            y_pos -= 0.05;
-//            ar_1 = (ar_1 - 5) % 360;
-//        }
-//        else
-//            state = 1;
-//        break;
-//	}
 }
 
 void specialKeys(int key, int x, int y) {
@@ -648,386 +661,42 @@ static void mouse(int button, int state, int x, int y) {
   }
 }
 
-void correct() {
-	double speed = 0.001;
-	if (eye[0]>0)
-	{
-		eye[0] -= speed;
-		center[0] -= speed;
-	}
-	else
-	{
-		eye[0] += speed;
-		center[0] += speed;
-	}
-
-	if (DRot == 0)
-	{
-		if ((eye[2] >= -1.2 && eye[2] <= -1) || eye[2]>0)
-		{
-			eye[2] -= speed;
-			center[2] -= speed;
-		}
-		else
-		{
-			eye[2] += speed;
-			center[2] += speed;
-		}
-	}
-	else
-	{
-		if (eye[2]>0)
-		{
-			eye[2] -= speed;
-			center[2] -= speed;
-		}
-		else
-		{
-			eye[2] += speed;
-			center[2] += speed;
-		}
-	}
-}
-
-void SetBound() {
-	if (DRot == 0 || eye[0]> 0.15 || eye[0]< -0.15)
-	{
-		if (eye[2] >= -1)
-		{
-			Zmax = 0.7;
-			Zmin = -0.8;
-		}
-		else
-		{
-			Zmax = -1.2;
-			Zmin = -2.4;
-		}
-	}
-	else
-	{
-		Zmax = 0.7;
-		Zmin = -2.4;
-	}
-}
-
-//void Timer1(int x) {
-//    // Refresh and redraw
-//    VRot += 5;
-//    if (VRot == 360)
-//        VRot = 0;
-//    glutPostRedisplay();
-//    glutTimerFunc(50, Timer1, 0);
-//}
-
-void DTimer1(int x) {
-	DRot -= 1;
-	if (DRot == 0)
-		return;
-	glutPostRedisplay();
-	glutTimerFunc(30, DTimer1, 0);
-}
-
-void DTimer2(int x) {
-	DRot += 1;
-	if (DRot == 90)
-		return;
-	glutPostRedisplay();
-	glutTimerFunc(30, DTimer2, 0);
-}
-
 void Keyboard(unsigned char Key, int x, int y) {
 	switch (Key)
 	{
 	case 'f':
-		SetBound();
-		if (eye[0]<0.25 && eye[0]>-0.25 && eye[2]<Zmax && eye[2]>Zmin)
-			moveForward();
-		else
-			correct();
+        moveForward();
+        glutPostRedisplay();
 		break;
 	case 'b':
-		SetBound();
-		if (eye[0]<0.25 && eye[0]>-0.25 && eye[2]<Zmax && eye[2]>Zmin)
-			moveBack();
-		else
-			correct();
+        moveBack();
+        glutPostRedisplay();
 		break;
+//	case ' ':
+//		if (DRot == 0 || DRot == 90)
+//		{
+//			if (DRot)
+//				DTimer1(0);
+//			else
+//				DTimer2(0);
+//		}
+//		break;
 	case 27:
 		exit(0);
-		break;
-    case 's':
-      if(fi_half2 <= 90)
-          fi_half2 = (fi_half2 + 5) % 360;
-      glutPostRedisplay();
-      break;
-   case 'S':
-      if(fi_half2 >= 0)
-          fi_half2 = (fi_half2 - 5) % 360;
-      glutPostRedisplay();
-      break;
-   case 'a':
-        if(fi_half1 <= 90)
-            fi_half1 = (fi_half1 + 5) % 360;
-        glutPostRedisplay();
-        break;
-   case 'A':
-        if(fi_half1 >= 0)
-            fi_half1 = (fi_half1 - 5) % 360;
-        glutPostRedisplay();
-        break;
-   case 'e':
-       if (elbow <= 110)
-           elbow = (elbow + 5) % 360;
-       glutPostRedisplay();
-        break;
-   case 'E':
-       if (elbow >= -110)
-           elbow = (elbow - 5) % 360;
-       glutPostRedisplay();
-       break;
-   case 'h':
-       if(hor1 <= 0)
-           hor1 = (hor1 + 5) % 360;
-       glutPostRedisplay();
-       break;
-   case 'H':
-        if(hor1 >= -90)
-            hor1 = (hor1 - 5) % 360;
-        glutPostRedisplay();
-        break;
-   case 'g':
-        if(hor2 <= 0)
-            hor2 = (hor2 + 5) % 360;
-        glutPostRedisplay();
-        break;
-   case 'G':
-        if(hor2 >= -90)
-            hor2 = (hor2 - 5) % 360;
-        glutPostRedisplay();
-        break;
-   case 'l':
-        if (fi_half <= 45)
-            fi_half = (fi_half + 5) % 360;
-        glutPostRedisplay();
-        break;
-   case 'L':
-        if(fi_half >= -55)
-            fi_half = (fi_half - 5) % 360;
-        glutPostRedisplay();
-        break;
-   case 'z':
-        if(fi_half3 <= 45)
-            fi_half3 = (fi_half3 + 5) % 360;
-        glutPostRedisplay();
-        break;
-   case 'Z':
-        if(fi_half3 >= -55)
-            fi_half3 = (fi_half3 - 5) % 360;
-        glutPostRedisplay();
-        break;
-   case 'm':
-        if(ar_1 <= 110)
-            ar_1 = (ar_1 + 5) % 360;
-        glutPostRedisplay();
-        break;
-   case 'M':
-        if(ar_1 >= 5)
-            ar_1 = (ar_1 - 5) % 360;
-        glutPostRedisplay();
-        break;
-   case 'd':
-        if (ar_2 <= 85)
-            ar_2 = (ar_2 + 5) % 360;
-        glutPostRedisplay();
-        break;
-   case 'D':
-        if(ar_2 >= 5)
-        {
-            ar_2 = (ar_2 - 5) % 360;
-        }
-        glutPostRedisplay();
-        break;
-//   case 'f':
-//       if (fingerBase <= 70)
-//            fingerBase = (fingerBase + 5) % 360;
-//       glutPostRedisplay();
-//       break;
-//   case 'F':
-//       if (fingerBase >= 0)
-//            fingerBase = (fingerBase - 5) % 360;
-//       glutPostRedisplay();
-//       break;
-    case 'q':
-       if (fingerBase1 <= 70)
-            fingerBase1 = (fingerBase1 + 5) % 360;
-       glutPostRedisplay();
-       break;
-    case 'Q':
-       if (fingerBase1 >= 0)
-            fingerBase1 = (fingerBase1 - 5) % 360;
-       glutPostRedisplay();
-       break;
-    case 'r':
-       if (fingerBase2 <= 70)
-            fingerBase2 = (fingerBase2 + 5) % 360;
-       glutPostRedisplay();
-       break;
-    case 'R':
-       if (fingerBase2 >= 0)
-            fingerBase2 = (fingerBase2 - 5) % 360;
-       glutPostRedisplay();
-       break;
-    case 't':
-       if (fingerBase3 <= 70)
-            fingerBase3 = (fingerBase3 + 5) % 360;
-       glutPostRedisplay();
-       break;
-    case 'T':
-       if (fingerBase3 >= 0)
-            fingerBase3 = (fingerBase3 - 5) % 360;
-       glutPostRedisplay();
-       break;
-    case 'y':
-       if (fingerBase4 <= 70)
-            fingerBase4 = (fingerBase4 + 5) % 360;
-       glutPostRedisplay();
-       break;
-    case 'Y':
-       if (fingerBase4 >= 0)
-            fingerBase4 = (fingerBase4 - 5) % 360;
-       glutPostRedisplay();
-       break;
-    case 'u':
-       if (fingerBase5 <= 70)
-            fingerBase5 = (fingerBase5 + 5) % 360;
-       glutPostRedisplay();
-       break;
-    case 'U':
-       if (fingerBase5 >= 0)
-            fingerBase5 = (fingerBase5 - 5) % 360;
-       glutPostRedisplay();
-       break;
-    case 'i':
-       if (fingerBase6 <= 70)
-            fingerBase6 = (fingerBase6 + 5) % 360;
-       glutPostRedisplay();
-       break;
-    case 'I':
-       if (fingerBase6 >= 0)
-            fingerBase6 = (fingerBase6 - 5) % 360;
-       glutPostRedisplay();
-       break;
-    case 'o':
-       if (fingerBase7 <= 70)
-            fingerBase7 = (fingerBase7 + 5) % 360;
-       glutPostRedisplay();
-       break;
-    case 'O':
-       if (fingerBase7 >= 0)
-            fingerBase7 = (fingerBase7 - 5) % 360;
-       glutPostRedisplay();
-       break;
-    case 'w':
-          if (fingerUp <= 90)
-              fingerUp = (fingerUp + 5) % 360;
-        glutPostRedisplay();
-        break;
-   case 'W':
-       if (fingerUp >= 0)
-           fingerUp = (fingerUp - 5) % 360;
-        glutPostRedisplay();
-        break;
-    case 'p':
-          if (fingerUp1 <= 90)
-              fingerUp1 = (fingerUp1 + 5) % 360;
-        glutPostRedisplay();
-        break;
-   case 'P':
-       if (fingerUp1 >= 0)
-           fingerUp1 = (fingerUp1 - 5) % 360;
-        glutPostRedisplay();
-        break;
-    case 'j':
-          if (fingerUp2 <= 90)
-              fingerUp2 = (fingerUp2 + 5) % 360;
-        glutPostRedisplay();
-        break;
-   case 'J':
-       if (fingerUp2 >= 0)
-           fingerUp2 = (fingerUp2 - 5) % 360;
-        glutPostRedisplay();
-        break;
-    case 'k':
-          if (fingerUp3 <= 90)
-              fingerUp3 = (fingerUp3 + 5) % 360;
-        glutPostRedisplay();
-        break;
-   case 'K':
-       if (fingerUp3 >= 0)
-           fingerUp3 = (fingerUp3 - 5) % 360;
-        glutPostRedisplay();
-        break;
-    case 'x':
-          if (fingerUp4 <= 90)
-              fingerUp4 = (fingerUp4 + 5) % 360;
-        glutPostRedisplay();
-        break;
-   case 'X':
-       if (fingerUp4 >= 0)
-           fingerUp4 = (fingerUp4 - 5) % 360;
-        glutPostRedisplay();
-        break;
-    case 'c':
-          if (fingerUp5 <= 90)
-              fingerUp5 = (fingerUp5 + 5) % 360;
-        glutPostRedisplay();
-        break;
-   case 'C':
-       if (fingerUp5 >= 0)
-           fingerUp5 = (fingerUp5 - 5) % 360;
-        glutPostRedisplay();
-        break;
-    case 'v':
-          if (fingerUp6 <= 90)
-              fingerUp6 = (fingerUp6 + 5) % 360;
-        glutPostRedisplay();
-        break;
-   case 'V':
-       if (fingerUp6 >= 0)
-           fingerUp6 = (fingerUp6 - 5) % 360;
-        glutPostRedisplay();
-        break;
-//	case 'b':
-//		moveForward();
-//		glutPostRedisplay();
-//		break;
-//	case 'B':
-//		moveBack();
-//		glutPostRedisplay();
-//		break;
-	case ' ':
-		if (DRot == 0 || DRot == 90)
-		{
-			if (DRot)
-				DTimer1(0);
-			else
-				DTimer2(0);
-		}
 		break;
 	default:
 		break;
 	}
 }
 
-static void motion(int x, int y)
-{
-  if (moving) {
-    angle = angle + (x - startx);
-    angle2 = angle2 + (y - starty);
-    startx = x;
-    starty = y;
-    glutPostRedisplay();
-  }
+static void motion(int x, int y) {
+    if (moving) {
+        angle = angle + (x - startx);
+        angle2 = angle2 + (y - starty);
+        startx = x;
+        starty = y;
+        glutPostRedisplay();
+    }
 }
 
 int main (int argc, char** argv) {
@@ -1038,13 +707,12 @@ int main (int argc, char** argv) {
 	drawTexture();
 	initRendering();
 	glMatrixMode(GL_PROJECTION);
-	gluPerspective(60, aspect, 0.1, 10);
+	gluPerspective(60, aspect, 0.2, 10);
 	glutDisplayFunc(display);
 	glutSpecialFunc(specialKeys);
     glutKeyboardFunc(Keyboard);
     glutMouseFunc(mouse);
     glutMotionFunc(motion);
-	Timer(0);
 	glutCreateMenu(screen_menu);
 	glutAddMenuEntry("Texture Models", 0);
 	glutAddMenuEntry(" ", 0);
@@ -1055,7 +723,7 @@ int main (int argc, char** argv) {
 	glutAddMenuEntry("Floor5", '5');
 	glutAddMenuEntry("Original", '6');
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
-	glutTimerFunc(0, Timer, 0);
+	glutTimerFunc(5000, Timer, 0);
 	glutMainLoop();
 	return 0;
 }
