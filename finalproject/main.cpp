@@ -24,7 +24,6 @@ GLMmodel* pmodel;
 float y_pos = 0.3, x_pos = 0.0;
 int state = 1;
 int RRot = 0.0;
-int delay = 0;
 
 // RGBA
 GLfloat light_ambient[] = { 0.0, 0.0, 0.0, 0.0 };
@@ -37,22 +36,6 @@ GLfloat lightPos1[] = { -0.5, -5.0, -2.0, 1.0 };
 GLfloat mat_amb_diff[] = { 0.643, 0.753, 0.934, 1.0 };
 GLfloat mat_specular[] = { 0.0, 0.0, 0.0, 1.0 };
 GLfloat shininess[] = { 100.0 };
-// Left teapot specular
-GLfloat teapotl_diff[] = { 0.0, 0.0, 1.0, 1.0 };
-GLfloat teapotl_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-GLfloat teapotl_shininess[] = { 10.0 };
-// Middle teapot diffuse
-GLfloat teapotm_diff[] = { 1.0, 0, 0.0, 1.0 };
-GLfloat teapotm_specular[] = { 0.0, 0.0, 0.0, 0.0 };
-GLfloat teapotm_shininess[] = { 1.0 };
-// Right teapot glosy
-GLfloat teapotr_diff[] = { 1.0, .0, 0.0, 1.0 };
-GLfloat teapotr_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-GLfloat teapotr_shininess[] = { 1000.0 };
-// Cube
-GLfloat cube_diff[] = { 1.0, 0.0, 0.0, 1.0 };
-GLfloat cube_specular[] = { 0.5, 0.5, 0.5, 1.0 };
-GLfloat cube_shininess[] = { 10.0 };
 
 // Makes the image into a texture, and returns the id of the texture
 GLuint loadTexture(Image* image) {
@@ -312,6 +295,7 @@ void display(void) {
             glScalef(2.0, 2.0, 2.0);
             drawObject2();
         glPopMatrix();
+        // Robot Body
         // Chest
         glTranslatef(x_pos, y_pos, 0.25);
         glTranslatef(0.0, 0.05, 0.0);
@@ -575,7 +559,7 @@ void Timer(int x) {
         if (fi_half >= -55)
         {
             ar_1 = 50.0, elbow = -100.0;
-            fi_half = (fi_half - 8) % 360;
+            fi_half = (fi_half - 10) % 360;
         }
         else
             state = -1;
@@ -585,7 +569,7 @@ void Timer(int x) {
         if (fi_half3 <= 45)
         {
             ar_1 = 50.0, elbow = -100.0;
-            fi_half3 = (fi_half3 + 8) % 360;
+            fi_half3 = (fi_half3 + 10) % 360;
         }
         else
             state = 0;
@@ -595,7 +579,7 @@ void Timer(int x) {
         state = 2;
         break;
     case 2:
-        if (y_pos <= 0.6)
+        if (y_pos <= 0.55)
         {
             y_pos += 0.05;
             ar_1 = (ar_1 + 8) % 360;
@@ -613,24 +597,43 @@ void Timer(int x) {
             state = 3;
         break;
     case 3:
-        y_pos = 0.3;
-        ar_1 = 0.0;
+        y_pos = 0.3, ar_1 = 0.0;
         RRot = -90.0;
-        if (fi_half >= -25 && x_pos >= -0.25)
+        if (x_pos > -0.6)
         {
-            fi_half = (fi_half - 8) % 360;
-//            x_pos += -0.05;
+            if (fi_half >= -30)
+                fi_half = (fi_half - 10) % 360;
+            else if (x_pos != -0.6)
+            {
+                fi_half = 0.0;
+                x_pos += -0.05;
+                state = 4;
+            }
         }
-        else if (fi_half3 >= -25 && x_pos >= -0.5)
-        {
-            fi_half = 0.0;
-            fi_half3 = (fi_half3 + 8) % 360;
-            x_pos += -0.05;
-        }
+        else if (x_pos <= -0.6)
+            fi_half = 0.0, fi_half3 = 0.0, x_pos = -0.6;
         else
+            state = 5;
+        break;
+    case 4:
+        if (x_pos > -0.6)
         {
-            break;
+            if (fi_half3 <= 30)
+                fi_half3 = (fi_half3 + 10) % 360;
+            else if (x_pos != -0.6)
+            {
+                fi_half3 = 0.0;
+                x_pos += -0.05;
+                state = 3;
+            }
         }
+        else if (x_pos <= -0.6)
+            fi_half = 0.0, fi_half3 = 0.0, x_pos = -0.6;
+        else
+            state = 5;
+        break;
+    case 5:
+        RRot = 90.0, y_pos = -0.5;
         break;
 	}
 }
@@ -719,3 +722,4 @@ int main (int argc, char** argv) {
 	glutMainLoop();
 	return 0;
 }
+
