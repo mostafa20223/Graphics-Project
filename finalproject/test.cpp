@@ -14,21 +14,17 @@ double center[] = { 0, 0, -1 };
 double up[] = { 0, 1, 0 };
 double direction[] = { 0, 0, 0 };
 double normal[] = { 0, 0, 0 };
-double theta = 0;
-double theta1 = 0.5;
-double theta2 = -0.5;
+double theta = 0, theta1 = 0.5, theta2 = -0.5;
 int moving, startx, starty;
 GLfloat angle = 0.0;
 GLfloat angle2 = 0.0;
-int windowWidth = 1024;
-int windowHeight = 768;
+static int windowWidth = 1024, windowHeight = 768;
 float aspect = float(windowWidth) / float(windowHeight);
-float DRot = 90;
-float Zmax, Zmin;
 GLMmodel* pmodel;
-float VRot = 0.0;
-float y_pos = 0.3;
+float y_pos = 0.3, x_pos = 0.0;
 int state = 1;
+int RRot = 0.0;
+int delay = 0;
 
 // RGBA
 GLfloat light_ambient[] = { 0.0, 0.0, 0.0, 0.0 };
@@ -260,49 +256,6 @@ void drawObject2(void) {
 
 GLuint startList;
 
-void drawAll() {
-    // Floor
-    glPushMatrix();
-        glEnable(GL_TEXTURE_2D);
-            glBindTexture(GL_TEXTURE_2D, _textureId);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glBegin(GL_QUADS);
-            glNormal3f(0.0, -1.0, 0.0);
-            glTexCoord2f(0.0f, 0.0f);
-            glVertex3f(-0.5, -0.25, 2);
-            glTexCoord2f(5.0f, 0.0f);
-            glVertex3f(0.5, -0.25, 2.0);
-            glTexCoord2f(5.0f, 20.0f);
-            glVertex3f(0.5, -0.25, -2.0);
-            glTexCoord2f(0.0f, 20.0f);
-            glVertex3f(-0.5, -0.25, -2.0);
-        glEnd();
-        glDisable(GL_TEXTURE_2D);
-    glPopMatrix();
-    // Objects
-    glPushMatrix();
-    	glTranslatef(-0.3, -0.15, -1.0);
-    	glRotatef(-180, 0.0, 1.0, 0.0);
-        glScalef(1.5, 1.5, 1.5);
-    	drawObject();
-	glPopMatrix();
-    glPushMatrix();
-    	glTranslatef(-0.25, 0.15, -1.0);
-    	glRotatef(-360, 0.0, 1.0, 0.0);
-        glScalef(1.5, 1.5, 1.5);
-    	drawObject1();
-	glPopMatrix();
-    glPushMatrix();
-    	glTranslatef(0.3, 0.0, 1.25);
-    	glRotatef(180, 0.0, 1.0, 0.0);
-        glScalef(2.0, 2.0, 2.0);
-    	drawObject2();
-	glPopMatrix();
-}
-
 void display(void) {
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -319,9 +272,51 @@ void display(void) {
 
     glPushMatrix();
         glTranslatef(0.0, 0.0, -1.0);
-        drawAll();
+        // Floor
+        glPushMatrix();
+            glEnable(GL_TEXTURE_2D);
+                glBindTexture(GL_TEXTURE_2D, _textureId);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glBegin(GL_QUADS);
+                glNormal3f(0.0, -1.0, 0.0);
+                glTexCoord2f(0.0f, 0.0f);
+                glVertex3f(-1.5, -0.25, 2.0);
+                glTexCoord2f(5.0f, 0.0f);
+                glVertex3f(1.5, -0.25, 2.0);
+                glTexCoord2f(5.0f, 20.0f);
+                glVertex3f(1.5, -0.25, -2.0);
+                glTexCoord2f(0.0f, 20.0f);
+                glVertex3f(-1.5, -0.25, -2.0);
+            glEnd();
+            glDisable(GL_TEXTURE_2D);
+        glPopMatrix();
+        // Objects
+        glPushMatrix();
+            glTranslatef(1.25, -0.15, -0.2);
+            glRotatef(90, 0.0, 1.0, 0.0);
+            glScalef(1.5, 1.5, 1.5);
+            drawObject();
+        glPopMatrix();
+        glPushMatrix();
+            glTranslatef(1.25, 0.15, -0.2);
+            glRotatef(270, 0.0, 1.0, 0.0);
+            glScalef(1.5, 1.5, 1.5);
+            drawObject1();
+        glPopMatrix();
+        glPushMatrix();
+            glTranslatef(-0.85, 0.0, 0.25);
+            glRotatef(90, 0.0, 1.0, 0.0);
+            glScalef(2.0, 2.0, 2.0);
+            drawObject2();
+        glPopMatrix();
         // Chest
-        glTranslatef(0.0, y_pos, 0.25);
+        glTranslatef(x_pos, y_pos, 0.25);
+        glTranslatef(0.0, 0.05, 0.0);
+        glRotatef((GLfloat)RRot, 0.0, 1.0, 0.0);
+        glTranslatef(0.0, -0.05, 0.0);
         glPushMatrix();
             glScalef(0.5, 0.75, 0.125);
             glutWireCube(0.5);
@@ -397,7 +392,7 @@ void display(void) {
             glPopMatrix();
             glTranslatef(0.0, -0.125, 0.0);
             glTranslatef(0.0, 0.05, 0.0);
-            glRotatef((GLfloat)elbow, 1.0, 0.0, 0.0);
+            glRotatef((GLfloat)elbow, 0.0, 0.0, 1.0);
             glTranslatef(0.0, -0.05, 0.0);
             glPushMatrix();
                 glScalef(0.125, 0.25, 0.15);
@@ -489,7 +484,7 @@ void display(void) {
             glPopMatrix();
             glTranslatef(0.0, -0.125, 0.0);
             glTranslatef(0.0, 0.05, 0.0);
-            glRotatef((GLfloat)elbow, 1.0, 0.0, 0.0);
+            glRotatef((GLfloat)-elbow, 0.0, 0.0, 1.0);
             glTranslatef(0.0, -0.05, 0.0);
             glPushMatrix();
                 glScalef(0.125, 0.25, 0.15);
@@ -574,45 +569,36 @@ void display(void) {
 
 void Timer(int x) {
 	glutPostRedisplay();
-	glutTimerFunc(1000/60, Timer, 0);
+	glutTimerFunc(0, Timer, 0);
 	switch (state) {
     case 1:
-        if (fi_half3 <= 45 && fi_half <= 45)
+        if (fi_half >= -55)
         {
-            ar_1 = 50.0;
-            ar_2 = 45.0;
-            elbow = 100.0;
-            fi_half3 = (fi_half3 + 8) % 360;
-            fi_half = (fi_half + 8) % 360;
+            ar_1 = 50.0, elbow = -100.0;
+            fi_half = (fi_half - 8) % 360;
         }
         else
             state = -1;
         break;
     case -1:
-        if (fi_half3 >= -55 && fi_half >= -55)
+        fi_half = 0.0;
+        if (fi_half3 <= 45)
         {
-            ar_1 = 50.0;
-            ar_2 = 45.0;
-            elbow = 100.0;
-            fi_half3 = (fi_half3 - 8) % 360;
-            fi_half = (fi_half - 8) % 360;
+            ar_1 = 50.0, elbow = -100.0;
+            fi_half3 = (fi_half3 + 8) % 360;
         }
         else
             state = 0;
         break;
 	case 0:
-        ar_1 = 0.0;
-        ar_2 = 0.0;
-        elbow = 0.0;
-        fi_half = 0.0;
-        fi_half3 = 0.0;
+        ar_1 = 0.0, elbow = 0.0, fi_half3 = 0.0;
         state = 2;
         break;
     case 2:
         if (y_pos <= 0.6)
         {
             y_pos += 0.05;
-            ar_1 = (ar_1 + 5) % 360;
+            ar_1 = (ar_1 + 8) % 360;
         }
         else
             state = -2;
@@ -621,7 +607,7 @@ void Timer(int x) {
         if (y_pos > 0.35)
         {
             y_pos -= 0.05;
-            ar_1 = (ar_1 - 5) % 360;
+            ar_1 = (ar_1 - 8) % 360;
         }
         else
             state = 3;
@@ -629,6 +615,22 @@ void Timer(int x) {
     case 3:
         y_pos = 0.3;
         ar_1 = 0.0;
+        RRot = -90.0;
+        if (fi_half >= -25 && x_pos >= -0.25)
+        {
+            fi_half = (fi_half - 8) % 360;
+//            x_pos += -0.05;
+        }
+        else if (fi_half3 >= -25 && x_pos >= -0.5)
+        {
+            fi_half = 0.0;
+            fi_half3 = (fi_half3 + 8) % 360;
+            x_pos += -0.05;
+        }
+        else
+        {
+            break;
+        }
         break;
 	}
 }
@@ -662,8 +664,7 @@ static void mouse(int button, int state, int x, int y) {
 }
 
 void Keyboard(unsigned char Key, int x, int y) {
-	switch (Key)
-	{
+	switch (Key) {
 	case 'f':
         moveForward();
         glutPostRedisplay();
@@ -672,15 +673,6 @@ void Keyboard(unsigned char Key, int x, int y) {
         moveBack();
         glutPostRedisplay();
 		break;
-//	case ' ':
-//		if (DRot == 0 || DRot == 90)
-//		{
-//			if (DRot)
-//				DTimer1(0);
-//			else
-//				DTimer2(0);
-//		}
-//		break;
 	case 27:
 		exit(0);
 		break;
