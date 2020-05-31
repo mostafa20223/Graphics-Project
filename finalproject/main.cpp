@@ -22,7 +22,7 @@ static int windowWidth = 1024, windowHeight = 768;
 float aspect = float(windowWidth) / float(windowHeight);
 GLMmodel* pmodel;
 float y_pos = 0.3, x_pos = 0.0, RRot = 0.0;
-int state = 1, sit = 1;
+int state = 1;
 
 // RGBA
 GLfloat light_ambient[] = { 0.0, 0.0, 0.0, 0.0 };
@@ -609,8 +609,11 @@ void Timer(int x) {
                 state = 4;
             }
         }
-        else if (x_pos <= -0.6)
+        else
+        {
             fi_half = 0.0, fi_half3 = 0.0, x_pos = -0.6;
+            RRot = -90.0, y_pos = 0.25, x_pos = -0.75, fi_half = 85.0, fi_half3 = -85.0, fi_half2 = -85.0, fi_half1 = -85.0;
+        }
         break;
     case 4:
         if (x_pos > -0.6)
@@ -624,37 +627,13 @@ void Timer(int x) {
                 state = 3;
             }
         }
-        else if (x_pos <= -0.6)
+        else
+        {
             fi_half = 0.0, fi_half3 = 0.0, x_pos = -0.6;
+            RRot = -90.0, y_pos = 0.25, x_pos = -0.75, fi_half = 85.0, fi_half3 = -85.0, fi_half2 = -85.0, fi_half1 = -85.0;
+        }
         break;
-	case 27:
-		exit(0);
-		break;
-	default:
-		break;
 	}
-}
-
-void Timer0(int x) {
-    glutPostRedisplay();
-    glutTimerFunc(0, Timer0, 0);
-    switch (sit) {
-    case 1:
-        RRot = -90.0; // x_pos = -0.6
-        sit = -1;
-        break;
-    case -1:
-        y_pos = 0.25, x_pos = -0.75, fi_half = 85.0, fi_half3 = -85.0, fi_half2 = -85.0, fi_half1 = -85.0;
-        sit = 0;
-        break;
-    case 0:
-        break;
-	case 27:
-		exit(0);
-		break;
-	default:
-		break;
-    }
 }
 
 void specialKeys(int key, int x, int y) {
@@ -697,9 +676,6 @@ void Keyboard(unsigned char Key, int x, int y) {
 		break;
     case 'a':
         glutTimerFunc(0, Timer, 0);
-        break;
-    case 's':
-        glutTimerFunc(0, Timer0, 0);
         break;
 	case 27:
 		exit(0);
