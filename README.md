@@ -36,7 +36,7 @@
 3. Objects Download : 
     * Implementing objects in the scene then scaling them to the suitable size and translating them to the required position. 
 
-4. Three Animations : \
+4. Three Animations : Click on letter 'a' to start the animations:  \
 Results :
     * Moving \
     ![](finalproject/data/m1.gif) \
