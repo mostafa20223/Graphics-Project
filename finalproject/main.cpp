@@ -1,4 +1,4 @@
-#include <windows.h>
+//#include <windows.h>
 #include <math.h>
 #include <GL/glut.h>
 #include "glm.h"
@@ -57,7 +57,7 @@ GLuint loadTexture(Image* image) {
 GLuint _textureId; //The id of the texture
 
 void drawTexture() {
-    Image* image = loadBMP("D:/Graphics-Project/finalproject/textures/floor6.bmp");
+    Image* image = loadBMP("/home/zeyad-taher/Desktop/Graphics-Project/finalproject/textures/floor3.bmp");
     _textureId = loadTexture(image);
     delete image;
 }
@@ -169,36 +169,37 @@ void moveBack() {
 	center[2] += direction[2] * speed;
 }
 
+
 void screen_menu(int value) {
     Image* image = 0;
 	switch (value) {
 	case '1':
-	    image = loadBMP("D:/Graphics-Project/finalproject/textures/floor1.bmp");
+	    image = loadBMP("/home/zeyad-taher/Desktop/Graphics-Project/finalproject/textures/floor1.bmp");
         _textureId = loadTexture(image);
         delete image;
 		break;
 	case '2':
-	    image = loadBMP("D:/Graphics-Project/finalproject/textures/floor2.bmp");
+	    image = loadBMP("/home/zeyad-taher/Desktop/Graphics-Project/finalproject/textures/floor2.bmp");
         _textureId = loadTexture(image);
         delete image;
 		break;
 	case '3':
-	    image = loadBMP("D:/Graphics-Project/finalproject/textures/floor3.bmp");
+	    image = loadBMP("/home/zeyad-taher/Desktop/Graphics-Project/finalproject/textures/floor3.bmp");
         _textureId = loadTexture(image);
         delete image;
 		break;
 	case '4':
-	    image = loadBMP("D:/Graphics-Project/finalproject/textures/floor4.bmp");
+	    image = loadBMP("/home/zeyad-taher/Desktop/Graphics-Project/finalproject/textures/floor4.bmp");
         _textureId = loadTexture(image);
         delete image;
 		break;
 	case '5':
-	    image = loadBMP("D:/Graphics-Project/finalproject/textures/floor5.bmp");
+	    image = loadBMP("/home/zeyad-taher/Desktop/Graphics-Project/finalproject/textures/floor5.bmp");
         _textureId = loadTexture(image);
         delete image;
 		break;
 	case '6':
-	    image = loadBMP("D:/Graphics-Project/finalproject/textures/floor6.bmp");
+	    image = loadBMP("/home/zeyad-taher/Desktop/Graphics-Project/finalproject/textures/floor6.bmp");
         _textureId = loadTexture(image);
         delete image;
 		break;
@@ -207,7 +208,7 @@ void screen_menu(int value) {
 }
 
 void drawObject(void) {
-    pmodel = glmReadOBJ("D:/Graphics-Project/finalproject/objects/desk/desk.obj");
+    pmodel = glmReadOBJ("/home/zeyad-taher/Desktop/Graphics-Project/finalproject/objects/desk/desk.obj");
     if (!pmodel) exit(0);
     glmUnitize(pmodel);
     glmFacetNormals(pmodel);
@@ -217,7 +218,7 @@ void drawObject(void) {
 }
 
 void drawObject1(void) {
-    pmodel = glmReadOBJ("D:/Graphics-Project/finalproject/objects/monitor/monitor.obj");
+    pmodel = glmReadOBJ("/home/zeyad-taher/Desktop/Graphics-Project/finalproject/objects/monitor/monitor.obj");
     if (!pmodel) exit(0);
     glmUnitize(pmodel);
     glmFacetNormals(pmodel);
@@ -227,7 +228,7 @@ void drawObject1(void) {
 }
 
 void drawObject2(void) {
-    pmodel = glmReadOBJ("D:/Graphics-Project/finalproject/objects/chair/Office_chair.obj");
+    pmodel = glmReadOBJ("/home/zeyad-taher/Desktop/Graphics-Project/finalproject/objects/chair/Office_chair.obj");
     if (!pmodel) exit(0);
     glmUnitize(pmodel);
     glmFacetNormals(pmodel);

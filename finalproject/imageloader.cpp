@@ -1,4 +1,4 @@
-#include <windows.h>
+//#include <windows.h>
 #include <assert.h>
 #include <fstream>
 #include "imageloader.h"
